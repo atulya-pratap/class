@@ -13,13 +13,14 @@ const SITE_CONFIG = {
   tagline: "Made by students, for the students."
 };
 
+// FIXED NAVBAR: Added frosted glass background (bg-[#F9F8F6]/90 backdrop-blur-md)
 const Navigation = ({ isMenuOpen, setIsMenuOpen }) => (
-  <nav className="fixed top-0 w-full z-50 flex items-center justify-between px-6 py-4 mix-blend-difference text-white">
+  <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-4 bg-[#F9F8F6]/90 backdrop-blur-md text-[#1A1A1A] border-b border-black/5 transition-all">
     <div className="font-serif tracking-widest text-sm uppercase">{SITE_CONFIG.magazineTitle}</div>
     <div className="hidden md:flex gap-8 text-xs font-sans tracking-widest">
-      <span className="hover:opacity-70 cursor-pointer transition-opacity">01 HOME</span>
-      <span className="hover:opacity-70 cursor-pointer transition-opacity">02 STORIES</span>
-      <span className="hover:opacity-70 cursor-pointer transition-opacity">03 PEOPLE</span>
+      <span className="hover:opacity-50 cursor-pointer transition-opacity">01 HOME</span>
+      <span className="hover:opacity-50 cursor-pointer transition-opacity">02 STORIES</span>
+      <span className="hover:opacity-50 cursor-pointer transition-opacity">03 PEOPLE</span>
     </div>
     <div className="flex items-center gap-4">
       <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -27,7 +28,7 @@ const Navigation = ({ isMenuOpen, setIsMenuOpen }) => (
       </button>
     </div>
     {isMenuOpen && (
-      <div className="absolute top-0 left-0 w-full h-screen bg-[#0A192F] text-[#F9F8F6] flex flex-col justify-center items-start pl-12 gap-8 z-40">
+      <div className="absolute top-full left-0 w-full h-screen bg-[#0A192F] text-[#F9F8F6] flex flex-col justify-start pt-12 items-start pl-12 gap-8 z-40">
         {['HOME', 'STORIES', 'PEOPLE', 'CAMPUS', 'CREATIVE'].map((item, i) => (
           <h2 key={item} className="font-serif text-4xl md:text-6xl tracking-wide cursor-pointer hover:opacity-50">
             <span className="text-sm font-sans mr-4 opacity-50">0{i + 1} —</span> {item}
@@ -38,9 +39,10 @@ const Navigation = ({ isMenuOpen, setIsMenuOpen }) => (
   </nav>
 );
 
+// FIXED SPACING: Added pt-32 to push the text down below the navbar
 const MagazineCover = () => (
-  <section className="relative h-screen w-full flex flex-col justify-between p-6 md:p-12 bg-[#F9F8F6] text-[#1A1A1A]">
-    <div className="pt-20 z-30">
+  <section className="relative h-screen w-full flex flex-col justify-between p-6 md:p-12 bg-[#F9F8F6] text-[#1A1A1A] pt-32">
+    <div className="z-30">
       <p className="text-xs font-sans tracking-[0.2em] uppercase mb-4">{SITE_CONFIG.schoolName} — {SITE_CONFIG.edition}</p>
       <h1 className="font-serif text-6xl md:text-[9rem] leading-[0.9] tracking-tight">THE YEAR<br />WE LIVED.</h1>
     </div>
