@@ -168,7 +168,7 @@ export default function App() {
   useEffect(() => {
     const fetchPeople = async () => {
       try {
-        const { data, error } = await supabase.from('students').select('*');
+        const { data, error } = await supabase.from('student').select('*');
         if (error) throw error;
         
         if (data && data.length > 0) {
@@ -177,7 +177,7 @@ export default function App() {
           setPeopleData(siteData.people.map((p, i) => ({ ...p, id: i, image_url: p.image })));
         }
       } catch (error) {
-        console.error("Exception fetching students:", error);
+        console.error("Exception fetching student:", error);
         setPeopleData(siteData.people.map((p, i) => ({ ...p, id: i, image_url: p.image })));
       } finally {
         setLoadingPeople(false);
