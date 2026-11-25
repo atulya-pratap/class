@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 // Your actual Supabase Credentials
@@ -8,177 +8,124 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const siteData = {
   meta: {
-    title: "THE CHRONICLE",
-    subtitle: "JNV VARANASI",
-    edition: "2025–26",
-    tagline: "A YEAR WORTH REMEMBERING",
+    brand: 'The Chronicle',
+    note: 'jnv varanasi · 2025–26, with love',
+    headline: ['A year', 'worth', 'remem-', 'bering.'],
+    lede: 'A magazine of the people, places, and quiet spaces between the bells that made our school days ours.',
+    footerBye: 'The year ends.',
+    footerSign: "The memories don't.",
+    finePrint: 'Made with love by JNV Varanasi · Edition 2025–26.',
   },
-  coverImage: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop",
+  wallScribbles: [
+    { text: 'stay in touch!!', color: '#E8384F', rotate: '-4deg', size: '2.1rem' },
+    { text: "mess menu says 'special'", color: '#12A150', rotate: '3deg' },
+    { text: 'last bench gang', color: '#8A4DFF', rotate: '-2deg' },
+    { text: '5:30 AM PT whistle', color: '#E5780A', rotate: '4deg', size: '1.95rem' },
+    { text: 'Page 47, open it silently', color: '#3B6CFF', rotate: '-3deg' },
+    { text: 'second family', color: '#D6338A', rotate: '2deg' },
+    { text: 'hostel charger = public property', color: '#0E8FA6', rotate: '-3deg', size: '1.9rem' },
+    { text: 'don’t forget us', color: '#E8384F', rotate: '3deg' },
+    { text: 'see you at the reunion', color: '#12A150', rotate: '-2deg' },
+  ],
   intro: {
-    label: "01 / THE YEAR",
-    headline: "This wasn't just another academic year.",
-    body: "It was mornings that started too early, classrooms that got too loud, games that lasted longer than planned, and a hundred small moments nobody thought they'd remember. This edition captures the people, the stories, and the quiet spaces between the bells."
+    greeting: 'Dear reader,',
+    paragraphs: [
+      "This wasn't just another academic year. It was mornings that started too early, classrooms that got too loud, games that lasted longer than planned, and a hundred small moments nobody thought they'd remember.",
+      'Twelve years of tiffin boxes, borrowed notebooks, and corridor laughter are turning into memories, and we didn’t want them to fade into a group chat that slowly goes quiet.',
+      'So we made this: a small magazine of us. Our faces, our stories, our campus, and everything we created between the bells.',
+    ],
+    signOff: 'JNV Varanasi, with love',
   },
-  timeline: [
-    { month: "JULY", event: "New Session Begins", desc: "The campus wakes up from its summer slumber." },
-    { month: "AUGUST", event: "Independence Day", desc: "March pasts, tricolours, and the first taste of autumn." },
-    { month: "OCTOBER", event: "Cluster Meet", desc: "Three days of fierce competition and new friendships." },
-    { month: "DECEMBER", event: "Alumni Meet", desc: "Old faces returning to familiar corridors." },
-    { month: "FEBRUARY", event: "Farewell", desc: "Saying goodbye to the seniors. The hardest month." },
+  peopleFallback: [
+    { id: 1, name: 'Aarav Sharma', role: 'School Captain', quote: 'lead by example', image_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop' },
+    { id: 2, name: 'Dr. K. Singh', role: 'Principal', quote: 'excellence is a habit', image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop' },
+    { id: 3, name: 'Neha Verma', role: 'Sports Secretary', quote: 'leave it on the field', image_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop' },
+    { id: 4, name: 'Vikram R.', role: 'Cultural Sec', quote: 'art speaks', image_url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop' },
   ],
   stories: [
     {
       id: 1,
-      title: "The Quiet Before the Bell",
-      category: "CAMPUS LIFE",
-      author: "Ananya S., Class XI",
-      excerpt: "At 5:30 AM, before the PT whistle blows, the campus belongs to the fog and the early risers.",
-      image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop",
-      featured: true,
+      title: 'The Quiet Before the Bell',
+      caption: '5:30 AM, before the PT whistle',
+      category: 'Campus Life',
+      author: 'Ananya S., Class XI',
+      excerpt: 'At 5:30 AM, before the PT whistle blows, the campus belongs to the fog and the early risers.',
+      image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop',
+      colorClass: 'c6',
     },
     {
       id: 2,
-      title: "Mess Duty Memoirs",
-      category: "HOSTEL STORIES",
-      author: "Rahul M., Class XII",
-      excerpt: "Serving hundreds of students teaches you more about management than any textbook ever could.",
-      image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1974&auto=format&fit=crop",
-      featured: false,
+      title: 'Mess Duty Memoirs',
+      caption: 'mess duty chronicles',
+      category: 'Hostel Stories',
+      author: 'Rahul M., Class XII',
+      excerpt: 'Serving hundreds of students teaches you more about management than any textbook ever could.',
+      image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1974&auto=format&fit=crop',
+      colorClass: 'c5',
     },
     {
       id: 3,
-      title: "Beyond the Whiteboard",
-      category: "ACADEMICS",
-      author: "Priya V., Class X",
-      excerpt: "When the syllabus ends, the real learning begins. A look at our late-night study circles.",
-      image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop",
-      featured: false,
-    }
-  ],
-  voices: [
-    {
-      quote: "JNV gave me friendships I never expected. It gave me a second family.",
-      author: "Student, Class XII"
+      title: 'Beyond the Whiteboard',
+      caption: 'late-night study circles',
+      category: 'Academics',
+      author: 'Priya V., Class X',
+      excerpt: 'When the syllabus ends, the real learning begins. A look at our late-night study circles.',
+      image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop',
+      colorClass: 'c2',
     },
-    {
-      quote: "You can live with five hundred people and somehow still lose your own toothpaste.",
-      author: "Hostel resident"
-    }
-  ],
-  people: [
-    { name: "Aarav Sharma", role: "School Captain", quote: "Lead by example.", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop" },
-    { name: "Dr. K. Singh", role: "Principal", quote: "Excellence is a habit.", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" },
-    { name: "Neha Verma", role: "Sports Secretary", quote: "Leave it on the field.", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop" },
-    { name: "Vikram R.", role: "Cultural Sec", quote: "Art speaks.", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop" },
-  ],
-  achievements: [
-    { year: "2025", title: "National Science Exhibition", distinction: "1st Position — Regional", category: "ACADEMICS" },
-    { year: "2025", title: "SGFI Athletics Championship", distinction: "2 Gold, 1 Silver", category: "SPORTS" },
-    { year: "2026", title: "Youth Parliament", distinction: "Best Speaker Award", category: "CULTURAL" },
   ],
   creativeWorks: [
-    { category: "POETRY", title: "The Last Bell", author: "STUDENT NAME" },
-    { category: "SHORT STORY", title: "The Missing Spoon", author: "STUDENT NAME" },
-    { category: "ART", title: "Courtyard at Dusk", author: "STUDENT NAME" },
-    { category: "ESSAY", title: "On Sharing a Room with Fifty People", author: "STUDENT NAME" },
+    {
+      category: 'Poem',
+      title: 'The Last Bell',
+      excerpt: '“The bell still rings inside my head, long after the corridors have emptied.”',
+      author: 'JNV Student',
+    },
+    {
+      category: 'Short story',
+      title: 'The Missing Spoon',
+      excerpt: '“In a hostel of five hundred residents, every steel spoon has a secret life of its own.”',
+      author: 'JNV Student',
+    },
+    {
+      category: 'Illustration',
+      title: 'Courtyard at Dusk',
+      excerpt: 'Pencil and watercolour, sketched between evening games and night prep.',
+      author: 'JNV Student',
+      artColor: 'c5',
+    },
+    {
+      category: 'Essay',
+      title: 'On Sharing a Room with Fifty People',
+      excerpt: '“You can live with five hundred people and somehow still lose your own toothpaste.”',
+      author: 'JNV Student',
+    },
   ],
-  humour: [
-    "The mess menu says 'special'. Nobody knows what it means.",
-    "\"Page 47, open it, silently.\" — every teacher, always.",
-    "A charger passed around the hostel is community property.",
-    "If you are seen outside after 10 PM, you are basically a phantom."
-  ]
 };
 
-const Reveal = ({ children, delay = 0, className = "" }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      className={`transition-all duration-1000 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-      } ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      {children}
-    </div>
-  );
-};
-
-const SectionHeader = ({ number, title }) => (
-  <div className="flex items-center gap-6 mb-16 border-b border-[#1C1C1C]/10 pb-4">
-    <span className="font-sans text-xs tracking-[0.2em] text-[#1C1C1C]/50">{number}</span>
-    <h2 className="font-sans text-xs tracking-[0.2em] uppercase text-[#1C1C1C]">{title}</h2>
-  </div>
-);
-
-const Navigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 100);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b border-[#1C1C1C]/10 backdrop-blur-md ${isScrolled ? 'bg-[#F9F8F6]/90 py-4' : 'bg-transparent py-6 border-transparent'}`}>
-      <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
-        <div className="font-serif text-sm tracking-widest font-bold">{siteData.meta.title}</div>
-        <div className="hidden lg:flex gap-8 font-sans text-[10px] tracking-[0.2em] uppercase">
-          <a href="#home" className="hover:text-[#8B2E2E] transition-colors">01 Home</a>
-          <a href="#stories" className="hover:text-[#8B2E2E] transition-colors">02 Stories</a>
-          <a href="#people" className="hover:text-[#8B2E2E] transition-colors">03 People</a>
-          <a href="#achievements" className="hover:text-[#8B2E2E] transition-colors">04 Achievements</a>
-          <a href="#creative" className="hover:text-[#8B2E2E] transition-colors">05 Creative</a>
-        </div>
-        <div className="hidden lg:flex gap-4 font-sans text-[10px] tracking-[0.2em] uppercase items-center">
-           <span>05 / 06</span>
-           <button className="hover:text-[#8B2E2E] transition-colors flex items-center gap-2">
-             Search
-           </button>
-        </div>
-        <div className="lg:hidden font-sans text-[10px] tracking-widest uppercase">Menu</div>
-      </div>
-    </nav>
-  );
-};
+const badgeColors = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6'];
 
 export default function App() {
   const [peopleData, setPeopleData] = useState([]);
   const [loadingPeople, setLoadingPeople] = useState(true);
+  const [showAllPeople, setShowAllPeople] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastVisible, setToastVisible] = useState(false);
 
   useEffect(() => {
     const fetchPeople = async () => {
       try {
         const { data, error } = await supabase.from('student').select('*');
         if (error) throw error;
-        
+
         if (data && data.length > 0) {
           setPeopleData(data);
         } else {
-          setPeopleData(siteData.people.map((p, i) => ({ ...p, id: i, image_url: p.image })));
+          setPeopleData(siteData.peopleFallback);
         }
       } catch (error) {
-        console.error("Exception fetching student:", error);
-        setPeopleData(siteData.people.map((p, i) => ({ ...p, id: i, image_url: p.image })));
+        console.error('Exception fetching student:', error);
+        setPeopleData(siteData.peopleFallback);
       } finally {
         setLoadingPeople(false);
       }
@@ -186,176 +133,678 @@ export default function App() {
     fetchPeople();
   }, []);
 
+  const triggerToast = (msg) => {
+    setToastMessage(msg);
+    setToastVisible(true);
+  };
+
+  useEffect(() => {
+    if (!toastVisible) return;
+    const timer = setTimeout(() => setToastVisible(false), 2400);
+    return () => clearTimeout(timer);
+  }, [toastVisible, toastMessage]);
+
+  const visiblePeople = showAllPeople ? peopleData : peopleData.slice(0, 6);
+
   return (
-    <div className="bg-[#F9F8F6] text-[#1C1C1C] min-h-screen relative overflow-x-hidden selection:bg-[#0A192F] selection:text-[#F9F8F6]">
-      <style dangerouslySetInnerHTML={{__html: `
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
-        .font-serif { font-family: 'Playfair Display', serif; }
-        .font-sans { font-family: 'Inter', sans-serif; }
-      `}} />
+    <div id="top" className="chronicle-app">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Caveat:wght@600;700&display=swap');
 
-      <Navigation />
+        :root {
+          --bg: #F3F5FA;
+          --card: #ffffff;
+          --ink: #141A3C;
+          --muted: #5B6285;
+          --blue: #2338D0;
+          --on-blue: #ffffff;
+          --red: #D92D3A;
+          --yellow: #FFE14D;
+          --rule: rgba(35, 56, 208, 0.17);
+          --line: rgba(20, 26, 60, 0.15);
+          --sans: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+          --hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+          color-scheme: light;
+        }
 
-      {/* 1. COVER EXPERIENCE */}
-      <section id="home" className="min-h-screen flex flex-col justify-between pt-32 pb-12 px-6 md:px-12 border-b border-[#1C1C1C]/20">
-        <Reveal>
-          <div className="text-center md:text-left flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
-            <div>
-              <h1 className="font-serif text-6xl md:text-8xl lg:text-[10rem] leading-none tracking-tighter mb-4">
-                {siteData.meta.title}
-              </h1>
-              <div className="font-sans text-sm md:text-base tracking-[0.3em] uppercase ml-1">
-                {siteData.meta.subtitle} <span className="text-[#8B2E2E]">—</span> {siteData.meta.edition}
-              </div>
-            </div>
-            <div className="hidden md:block font-sans text-xs tracking-widest max-w-[200px] text-right text-[#1C1C1C]/60">
-              {siteData.meta.tagline}
-            </div>
+        @media (prefers-color-scheme: dark) {
+          :root:not([data-theme="light"]) {
+            --bg: #0D1124;
+            --card: #161B36;
+            --ink: #EEF0FA;
+            --muted: #9AA2C8;
+            --blue: #8FA2FF;
+            --on-blue: #0D1124;
+            --red: #FF7B84;
+            --rule: rgba(143, 162, 255, 0.2);
+            --line: rgba(238, 240, 250, 0.17);
+            color-scheme: dark;
+          }
+        }
+
+        html {
+          scroll-padding-top: 64px;
+          scroll-behavior: smooth;
+        }
+
+        body {
+          margin: 0;
+          background: var(--bg);
+          color: var(--ink);
+          font: 400 1rem/1.6 var(--sans);
+        }
+
+        .chronicle-app {
+          min-height: 100vh;
+          background: var(--bg);
+          color: var(--ink);
+          font-family: var(--sans);
+          padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        .chronicle-app *, .chronicle-app *::before, .chronicle-app *::after {
+          box-sizing: border-box;
+        }
+
+        .wrap {
+          max-width: 720px;
+          margin: 0 auto;
+          padding: 0 20px;
+        }
+
+        /* Sticky Header */
+        .bar {
+          position: sticky;
+          top: 0;
+          z-index: 20;
+          background: var(--bg);
+          border-bottom: 1px solid var(--line);
+        }
+        .bar .wrap {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          height: 56px;
+        }
+        .brand {
+          font: 800 1.2rem/1 var(--sans);
+          letter-spacing: -0.03em;
+          color: var(--blue);
+          text-decoration: none;
+        }
+        .bar nav {
+          display: flex;
+          gap: 16px;
+          font-size: 0.85rem;
+          font-weight: 500;
+        }
+        .bar nav a {
+          text-decoration: none;
+          color: var(--muted);
+          transition: color 0.15s;
+        }
+        .bar nav a:hover {
+          color: var(--blue);
+        }
+
+        /* Hero */
+        .hero {
+          padding: 34px 0 0;
+        }
+        .note {
+          display: inline-block;
+          margin: 0 0 10px;
+          font: 700 1.4rem/1 var(--hand);
+          color: var(--red);
+          transform: rotate(-3deg);
+        }
+        .chronicle-app h1 {
+          margin: 0 0 18px;
+          font: 800 clamp(3.4rem, 17vw, 4.8rem)/0.9 var(--sans);
+          letter-spacing: -0.05em;
+          color: var(--blue);
+        }
+        .lede {
+          margin: 0 0 24px;
+          max-width: 32ch;
+          font-size: 1.15rem;
+          line-height: 1.5;
+        }
+        .cta {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 14px;
+        }
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 48px;
+          padding: 0 22px;
+          border: 2px solid var(--ink);
+          border-radius: 8px;
+          background: var(--card);
+          color: var(--ink);
+          font: 700 0.95rem/1 var(--sans);
+          text-decoration: none;
+          cursor: pointer;
+          box-shadow: 3px 3px 0 var(--ink);
+          transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .btn:active {
+          transform: translate(2px, 2px);
+          box-shadow: 1px 1px 0 var(--ink);
+        }
+        .btn.solid {
+          background: var(--blue);
+          color: var(--on-blue);
+        }
+
+        /* Autograph / Scribble Wall */
+        .wall {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 6px 20px;
+          margin-top: 38px;
+          padding: 26px 16px;
+          background: var(--card);
+          border: 1px solid var(--line);
+          border-radius: 4px;
+        }
+        .wall span {
+          font: 700 1.75rem/1.15 var(--hand);
+          color: var(--c);
+          transform: rotate(var(--r));
+          display: inline-block;
+        }
+
+        /* Sections */
+        .chronicle-section {
+          padding-top: 68px;
+        }
+        .chronicle-app h2 {
+          margin: 0 0 6px;
+          font: 800 clamp(2.3rem, 11vw, 3.4rem)/1 var(--sans);
+          letter-spacing: -0.045em;
+          color: var(--blue);
+        }
+        .sub {
+          margin: 0 0 28px;
+          color: var(--muted);
+        }
+        .more {
+          display: flex;
+          justify-content: center;
+          margin-top: 36px;
+        }
+
+        /* Placeholder & Striped Colors */
+        .ph {
+          background: repeating-linear-gradient(
+              135deg,
+              rgba(255, 255, 255, 0.13) 0 9px,
+              transparent 9px 18px
+            ),
+            var(--c);
+          overflow: hidden;
+        }
+        .c1 { --c: #2338D0; }
+        .c2 { --c: #E23B3B; }
+        .c3 { --c: #16875A; }
+        .c4 { --c: #7A3FD1; }
+        .c5 { --c: #E58A00; }
+        .c6 { --c: #0E8FA6; }
+
+        /* Ruled Notebook Paper */
+        .paper {
+          position: relative;
+          padding: 30px 18px 30px 56px;
+          background: var(--card)
+            repeating-linear-gradient(
+              to bottom,
+              transparent 0 29px,
+              var(--rule) 29px 30px
+            );
+          border: 1px solid var(--line);
+          line-height: 30px;
+        }
+        .paper::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 38px;
+          width: 2px;
+          background: var(--red);
+          opacity: 0.55;
+        }
+        .paper p {
+          margin: 0 0 30px;
+        }
+        .paper p:last-child {
+          margin-bottom: 0;
+        }
+        .hand {
+          font: 700 1.7rem/30px var(--hand);
+          color: var(--blue);
+        }
+
+        /* Lanyard ID Badges (People) */
+        .people {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px 14px;
+        }
+        .id {
+          position: relative;
+          display: block;
+          padding: 24px 10px 14px;
+          background: var(--card);
+          border: 1px solid var(--line);
+          border-radius: 12px;
+          text-align: center;
+          text-decoration: none;
+          color: var(--ink);
+          transition: transform 0.2s ease;
+        }
+        .id:nth-child(odd) {
+          transform: rotate(-1deg);
+        }
+        .id:nth-child(even) {
+          transform: rotate(1deg);
+        }
+        .id:hover {
+          transform: rotate(0deg) translateY(-2px);
+        }
+        .slot {
+          position: absolute;
+          top: 9px;
+          left: 50%;
+          width: 36px;
+          height: 7px;
+          margin-left: -18px;
+          border-radius: 9px;
+          background: var(--bg);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .id .ph {
+          display: grid;
+          place-items: center;
+          aspect-ratio: 1;
+          border-radius: 4px;
+        }
+        .id .ph img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .id .ph b {
+          font: 800 3.4rem/1 var(--sans);
+          color: rgba(255, 255, 255, 0.92);
+        }
+        .id strong {
+          display: block;
+          margin-top: 10px;
+          font-size: 1rem;
+          line-height: 1.2;
+          font-weight: 700;
+        }
+        .id small {
+          display: block;
+          color: var(--muted);
+          font-size: 0.8rem;
+          margin-top: 2px;
+        }
+        .id em {
+          display: block;
+          margin-top: 4px;
+          font: 700 1.25rem/1 var(--hand);
+          font-style: normal;
+          color: var(--red);
+        }
+
+        /* Polaroid Snaps (Stories / Photos) */
+        .snaps {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 30px 16px;
+          padding-top: 12px;
+        }
+        .snap {
+          position: relative;
+          display: block;
+          padding: 8px 8px 36px;
+          background: #ffffff;
+          color: #2B2F55;
+          text-decoration: none;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 12px 18px -12px rgba(0, 0, 0, 0.4);
+          transition: transform 0.2s ease;
+        }
+        .snap::before {
+          content: "";
+          position: absolute;
+          top: -10px;
+          left: 50%;
+          width: 64px;
+          height: 20px;
+          margin-left: -32px;
+          background: rgba(255, 225, 77, 0.78);
+          transform: rotate(-3deg);
+          z-index: 2;
+        }
+        .snap:nth-child(odd) {
+          transform: rotate(-1.6deg);
+        }
+        .snap:nth-child(even) {
+          transform: rotate(1.4deg);
+        }
+        .snap:hover {
+          transform: rotate(0deg) translateY(-2px);
+        }
+        .snap:first-child {
+          grid-column: span 2;
+        }
+        .snap .ph {
+          aspect-ratio: 4 / 5;
+        }
+        .snap:first-child .ph {
+          aspect-ratio: 16 / 10;
+        }
+        .snap .ph img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .snap span {
+          position: absolute;
+          left: 8px;
+          right: 8px;
+          bottom: 7px;
+          text-align: center;
+          font: 700 1.2rem/1 var(--hand);
+        }
+
+        /* Creative Work */
+        .works {
+          display: grid;
+          gap: 44px;
+        }
+        .work {
+          display: block;
+          color: inherit;
+          text-decoration: none;
+        }
+        .tab {
+          position: absolute;
+          top: -13px;
+          left: 56px;
+          padding: 7px 12px 6px;
+          background: var(--yellow);
+          color: #141A3C;
+          font: 700 0.8rem/1 var(--sans);
+          transform: rotate(-2deg);
+        }
+        .work h3 {
+          margin: 0;
+          font: 800 1.5rem/30px var(--sans);
+          letter-spacing: -0.03em;
+        }
+        .art {
+          height: 150px;
+          margin: 0 0 30px;
+          border-radius: 4px;
+        }
+
+        /* Footer */
+        .chronicle-footer {
+          margin-top: 84px;
+          padding: 40px 0 44px;
+          border-top: 2px solid var(--blue);
+        }
+        .bye {
+          margin: 0 0 4px;
+          font: 800 clamp(2.3rem, 11vw, 3.4rem)/0.95 var(--sans);
+          letter-spacing: -0.045em;
+          color: var(--blue);
+        }
+        .sign {
+          margin: 0 0 22px;
+          font: 700 1.7rem/1 var(--hand);
+          color: var(--red);
+        }
+        .chronicle-footer nav {
+          display: flex;
+          gap: 18px;
+          margin-bottom: 18px;
+          font-weight: 600;
+        }
+        .chronicle-footer nav a {
+          text-decoration: none;
+          color: var(--ink);
+        }
+        .fine {
+          margin: 0;
+          color: var(--muted);
+          font-size: 0.85rem;
+        }
+
+        /* Toast */
+        .toast {
+          position: fixed;
+          left: 50%;
+          bottom: calc(env(safe-area-inset-bottom, 0px) + 22px);
+          z-index: 40;
+          max-width: 90vw;
+          padding: 12px 18px;
+          border-radius: 8px;
+          background: var(--ink);
+          color: var(--bg);
+          font-size: 0.9rem;
+          opacity: 0;
+          pointer-events: none;
+          transform: translate(-50%, 16px);
+          transition: opacity 0.25s, transform 0.25s;
+        }
+        .toast.on {
+          opacity: 1;
+          transform: translate(-50%, 0);
+        }
+
+        @media (min-width: 600px) {
+          .people,
+          .snaps {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+      ` }} />
+
+      {/* TOP BAR */}
+      <header className="bar">
+        <div className="wrap">
+          <a className="brand" href="#top">{siteData.meta.brand}</a>
+          <nav>
+            <a href="#people">People</a>
+            <a href="#photos">Stories</a>
+            <a href="#creative">Creative</a>
+          </nav>
+        </div>
+      </header>
+
+      <main className="wrap">
+        {/* HERO */}
+        <section className="hero">
+          <p className="note">{siteData.meta.note}</p>
+          <h1>
+            {siteData.meta.headline.map((line, i) => (
+              <React.Fragment key={i}>
+                {line}
+                {i < siteData.meta.headline.length - 1 && <br />}
+              </React.Fragment>
+            ))}
+          </h1>
+          <p className="lede">{siteData.meta.lede}</p>
+          <div className="cta">
+            <a className="btn solid" href="#people">Meet the batch</a>
+            <a className="btn" href="#note">Read our note</a>
           </div>
-        </Reveal>
 
-        <Reveal delay={200} className="flex-grow w-full relative overflow-hidden group">
-          <img 
-            src={siteData.coverImage} 
-            alt="Campus Cover" 
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[20s] ease-linear group-hover:scale-105 filter grayscale-[20%]"
-          />
-          <div className="absolute inset-0 bg-[#1C1C1C]/10 mix-blend-multiply"></div>
-        </Reveal>
-        
-        <Reveal delay={400}>
-           <div className="mt-12 flex justify-between items-center font-sans text-xs tracking-[0.2em] uppercase">
-            <span>Scroll to explore</span>
-            <span className="animate-bounce">↓</span>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* 2. INTRODUCTION */}
-      <section className="py-24 md:py-40 px-6 md:px-12 border-b border-[#1C1C1C]/20">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24">
-          <Reveal className="md:col-span-4">
-            <div className="font-sans text-xs tracking-[0.2em] uppercase sticky top-32">
-              {siteData.intro.label}
-            </div>
-          </Reveal>
-          <Reveal className="md:col-span-8" delay={200}>
-            <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-tight tracking-tight mb-12">
-              {siteData.intro.headline}
-            </h2>
-            <p className="font-sans text-lg md:text-xl leading-relaxed max-w-2xl text-[#1C1C1C]/80">
-              {siteData.intro.body}
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* 3. STORIES */}
-      <section id="stories" className="py-24 md:py-32 px-6 md:px-12">
-        <SectionHeader number="02" title="Stories" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          {siteData.stories.map((story, idx) => (
-            <Reveal key={story.id} className={story.featured ? "md:col-span-2" : "col-span-1"} delay={idx * 150}>
-              <div className="group cursor-pointer">
-                <div className={`overflow-hidden mb-6 ${story.featured ? 'aspect-[21/9]' : 'aspect-[4/3]'}`}>
-                  <img src={story.image} alt={story.title} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" />
-                </div>
-                <div className="font-sans text-[10px] tracking-[0.2em] text-[#8B2E2E] uppercase mb-3">{story.category}</div>
-                <h3 className="font-serif text-2xl md:text-4xl mb-4 group-hover:text-[#8B2E2E] transition-colors">{story.title}</h3>
-                <p className="font-sans text-sm text-[#1C1C1C]/70 mb-4">{story.excerpt}</p>
-                <div className="font-sans text-xs italic text-[#1C1C1C]/50">By {story.author}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* 4. PEOPLE */}
-      <section id="people" className="py-24 px-6 md:px-12 bg-[#0A192F] text-white">
-        <div className="mb-16 border-b border-white/10 pb-4 flex items-center gap-6">
-          <span className="font-sans text-xs tracking-[0.2em] text-white/50">03</span>
-          <h2 className="font-sans text-xs tracking-[0.2em] uppercase text-white">The People</h2>
-        </div>
-        
-        {loadingPeople ? (
-          <div className="py-20 text-white/40 font-sans text-xs tracking-[0.2em] uppercase animate-pulse">Loading portraits...</div>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {peopleData.map((person, idx) => (
-              <Reveal key={person.id || idx} delay={idx * 100}>
-                <div className="group cursor-pointer">
-                  <div className="aspect-[3/4] overflow-hidden mb-6 bg-white/5">
-                    {/* Maps to both your schema variants seamlessly */}
-                    {(person.image_url || person.photo_url) ? (
-                      <img src={person.image_url || person.photo_url} alt={person.name} className="w-full h-full object-cover filter grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center font-serif text-4xl opacity-20">{person.name ? person.name.charAt(0) : '?'}</div>
-                    )}
-                  </div>
-                  <h4 className="font-sans font-medium text-lg tracking-wide">{person.name}</h4>
-                  <div className="font-sans text-xs tracking-widest uppercase text-white/50 mt-1 mb-3">{person.role || `Class ${person.class || ''}`}</div>
-                  <p className="font-serif text-sm italic text-white/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300">"{person.quote || person.favourite_quote}"</p>
-                </div>
-              </Reveal>
+          <div className="wall" aria-label="Last-day messages and Navodayan memories">
+            {siteData.wallScribbles.map((item, idx) => (
+              <span
+                key={idx}
+                style={{
+                  '--c': item.color,
+                  '--r': item.rotate,
+                  ...(item.size ? { fontSize: item.size } : {}),
+                }}
+              >
+                {item.text}
+              </span>
             ))}
           </div>
-        )}
-      </section>
+        </section>
 
-      {/* 5. CREATIVE */}
-      <section id="creative" className="bg-[#111111] text-[#F9F8F6] py-32 px-6 md:px-12">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <div className="font-sans text-xs tracking-widest text-gray-400 uppercase mb-8">04 / Creative Corner</div>
-            <h2 className="font-serif text-6xl md:text-8xl lg:text-[7rem] mb-6 tracking-tight">Creative</h2>
-            <p className="font-serif italic text-gray-400 text-xl md:text-2xl max-w-md mb-24">Poems, sketches and essays, written between classes.</p>
-          </Reveal>
+        {/* NOTE ON RULED PAPER */}
+        <section id="note" className="chronicle-section">
+          <h2>A note from us</h2>
+          <p className="sub">Written by all of us, on the last page of the year.</p>
+          <article className="paper">
+            <p className="hand">{siteData.intro.greeting}</p>
+            {siteData.intro.paragraphs.map((para, idx) => (
+              <p key={idx}>{para}</p>
+            ))}
+            <p className="hand">{siteData.intro.signOff}</p>
+          </article>
+        </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* PEOPLE (LANYARD ID CARDS FROM SUPABASE) */}
+        <section id="people" className="chronicle-section">
+          <h2>People</h2>
+          <p className="sub">The faces behind the batch. Powered live by our directory.</p>
+
+          {loadingPeople ? (
+            <p className="sub">Loading batch directory...</p>
+          ) : (
+            <div className="people">
+              {visiblePeople.map((person, idx) => {
+                const photoUrl = person.image_url || person.photo_url;
+                const colorClass = badgeColors[idx % badgeColors.length];
+                const roleLabel = person.role || (person.class ? `Class ${person.class}` : 'JNV Varanasi');
+                const tagline = person.quote || person.favourite_quote || 'batch of 2025–26';
+
+                return (
+                  <a
+                    key={person.id || idx}
+                    className="id"
+                    href="#people"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      triggerToast(`${person.name}: "${tagline}"`);
+                    }}
+                  >
+                    <i className="slot" />
+                    <div className={`ph ${colorClass}`}>
+                      {photoUrl ? (
+                        <img src={photoUrl} alt={person.name} />
+                      ) : (
+                        <b>{person.name ? person.name.charAt(0).toUpperCase() : '?'}</b>
+                      )}
+                    </div>
+                    <strong>{person.name}</strong>
+                    <small>{roleLabel}</small>
+                    <em>{tagline}</em>
+                  </a>
+                );
+              })}
+            </div>
+          )}
+
+          {peopleData.length > 6 && (
+            <div className="more">
+              <button
+                type="button"
+                className="btn"
+                onClick={() => setShowAllPeople((prev) => !prev)}
+              >
+                {showAllPeople ? 'Show fewer people' : `View all ${peopleData.length} people`}
+              </button>
+            </div>
+          )}
+        </section>
+
+        {/* STORIES & MOMENTS (POLAROID SNAPS) */}
+        <section id="photos" className="chronicle-section">
+          <h2>Stories &amp; moments</h2>
+          <p className="sub">Campus corners and small moments we want to keep.</p>
+          <div className="snaps">
+            {siteData.stories.map((story) => (
+              <a
+                key={story.id}
+                className="snap"
+                href="#photos"
+                onClick={(e) => {
+                  e.preventDefault();
+                  triggerToast(`${story.title} — ${story.author}`);
+                }}
+              >
+                <div className={`ph ${story.colorClass}`}>
+                  {story.image && <img src={story.image} alt={story.title} />}
+                </div>
+                <span>{story.caption}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* CREATIVE WORK (NOTEBOOK SHEETS WITH STICKY TABS) */}
+        <section id="creative" className="chronicle-section">
+          <h2>Creative work</h2>
+          <p className="sub">Poems, stories and sketches from the margins of our notebooks.</p>
+          <div className="works">
             {siteData.creativeWorks.map((work, idx) => (
-              <Reveal key={idx} delay={idx * 100}>
-                <div className="border border-[#333333] p-8 h-full flex flex-col justify-between min-h-[280px] group hover:border-[#555555] transition-colors">
-                  <div>
-                    <div className="font-sans text-[10px] tracking-widest text-[#E05A3D] font-bold mb-8 uppercase">{work.category}</div>
-                    <h3 className="font-serif text-2xl md:text-3xl text-white mb-8 group-hover:text-gray-300 transition-colors leading-tight">{work.title}</h3>
-                  </div>
-                  <div className="font-sans text-xs tracking-widest text-gray-500 uppercase mt-8">{work.author}</div>
-                </div>
-              </Reveal>
+              <a
+                key={idx}
+                className="paper work"
+                href="#creative"
+                onClick={(e) => {
+                  e.preventDefault();
+                  triggerToast(`Full ${work.category.toLowerCase()} coming soon`);
+                }}
+              >
+                <span className="tab">{work.category}</span>
+                {work.artColor && <div className={`ph art ${work.artColor}`} />}
+                <h3>{work.title}</h3>
+                <p>{work.excerpt}</p>
+                <p className="hand">by {work.author}</p>
+              </a>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
-      {/* 6. HUMOUR */}
-      <section id="humour" className="bg-[#8da5d3] text-white py-32 px-6 md:px-12">
-        <div className="max-w-5xl mx-auto">
-          <Reveal>
-            <div className="font-sans text-xs tracking-widest text-white/70 uppercase mb-8">05 / Lighter Side</div>
-            <h2 className="font-serif text-5xl md:text-7xl lg:text-[6.5rem] leading-[1.1] max-w-4xl mb-24">Things only a Navodayan would understand</h2>
-          </Reveal>
-
-          <div className="flex flex-col">
-            {siteData.humour.map((joke, idx) => (
-              <Reveal key={idx} delay={idx * 100}>
-                <div className="flex items-start gap-8 py-8 border-t border-white/20">
-                  <span className="font-sans text-sm font-bold text-white/60 pt-2 shrink-0">{(idx + 1).toString().padStart(2, '0')}</span>
-                  <p className="font-serif italic text-2xl md:text-3xl lg:text-4xl leading-snug">{joke}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+      {/* FOOTER */}
+      <footer className="chronicle-footer">
+        <div className="wrap">
+          <p className="bye">{siteData.meta.footerBye}</p>
+          <p className="sign">{siteData.meta.footerSign}</p>
+          <nav>
+            <a href="#people">People</a>
+            <a href="#photos">Stories</a>
+            <a href="#creative">Creative</a>
+            <a href="#top">Top</a>
+          </nav>
+          <p className="fine">{siteData.meta.finePrint}</p>
         </div>
-      </section>
-      
-      {/* 7. FOOTER */}
-      <footer className="pt-32 pb-12 px-6 md:px-12 bg-[#1C1C1C] text-[#F9F8F6]">
-        <Reveal>
-          <div className="text-center mb-32">
-            <h2 className="font-serif text-4xl md:text-7xl lg:text-[8rem] leading-none mb-8">THE YEAR ENDS.<br /><span className="text-[#F9F8F6]/50 italic">THE MEMORIES DON'T.</span></h2>
-          </div>
-        </Reveal>
       </footer>
+
+      <div className={`toast ${toastVisible ? 'on' : ''}`} role="status" aria-live="polite">
+        {toastMessage}
+      </div>
     </div>
   );
 }
