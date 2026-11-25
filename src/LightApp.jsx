@@ -8,15 +8,24 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const siteData = {
   meta: {
-    brand: 'Class XII',
+    brand: 'The Chronicle',
     subBrand: 'The Farewell Issue · JNV Varanasi',
-    heroTitle: 'A year worth remembering.',
+    issueLeft: 'EDITION 2025–26',
+    issueRight: 'JNV VARANASI · ANNUAL ARCHIVE',
+    kicker: 'JNV Varanasi · Class XII & Campus',
+    heroTitlePre: 'A year ',
+    heroTitleItalic: 'worth',
+    heroTitlePost: ' remembering.',
     lede: 'A magazine of the people, places, and quiet spaces between the bells that made our school days ours.',
+    coverImage: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop',
+    coverCaption: 'Fig. 01 — The academic courtyard before the morning assembly bell.',
     footerBye: 'The year ends.',
     footerSign: "The memories don't.",
     finePrint: 'Made with love by JNV Varanasi · Edition 2025–26.',
   },
   intro: {
+    pullQuote: '“Some years don’t just pass—they stay with you long after the last bell.”',
+    pullCaption: 'Editorial Note · Page 01',
     paragraphs: [
       "This wasn't just another academic year. It was mornings that started too early, classrooms that got too loud, games that lasted longer than planned, and a hundred small moments nobody thought they'd remember.",
       'Twelve years of tiffin boxes, borrowed notebooks, and corridor laughter are turning into memories, and we didn’t want them to fade into a group chat that slowly goes quiet.',
@@ -24,6 +33,13 @@ const siteData = {
     ],
     signOff: 'JNV Varanasi, with love',
   },
+  timeline: [
+    { num: '01', month: 'July', event: 'New Session Begins', desc: 'The campus wakes up from its summer slumber.' },
+    { num: '02', month: 'August', event: 'Independence Day', desc: 'March pasts, tricolours, and the first taste of autumn.' },
+    { num: '03', month: 'October', event: 'Cluster Meet', desc: 'Three days of fierce competition and new friendships.' },
+    { num: '04', month: 'December', event: 'Alumni Meet', desc: 'Old faces returning to familiar corridors.' },
+    { num: '05', month: 'February', event: 'Farewell', desc: 'Saying goodbye to the seniors. The hardest month.' },
+  ],
   peopleFallback: [
     { id: 1, name: 'Aarav Sharma', role: 'School Captain', roll_no: 1, quote: 'Lead by example.', image_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop' },
     { id: 2, name: 'Dr. K. Singh', role: 'Principal', roll_no: 2, quote: 'Excellence is a habit.', image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop' },
@@ -36,55 +52,88 @@ const siteData = {
       title: 'The Quiet Before the Bell',
       category: 'Campus Life',
       author: 'Ananya S., Class XI',
+      readTime: '3 min read',
       excerpt: 'At 5:30 AM, before the PT whistle blows, the campus belongs to the fog and the early risers.',
+      fullText: [
+        'At 5:30 AM, before the PT whistle echoes across the hostel quadrangle, JNV Varanasi belongs entirely to the morning mist and the earliest risers.',
+        'The corridors are still, save for the clink of steel buckets and hurried footsteps toward the ground. For twenty quiet minutes, the campus feels suspended between night and the rush of classes, assemblies, and evening games.',
+        'Those are the moments nobody writes down in the school calendar, yet they are the ones that stay clearest years after graduation.',
+      ],
       image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop',
+      featured: true,
     },
     {
       id: 2,
       title: 'Mess Duty Memoirs',
       category: 'Hostel Stories',
       author: 'Rahul M., Class XII',
+      readTime: '2 min read',
       excerpt: 'Serving hundreds of students teaches you more about management than any textbook ever could.',
+      fullText: [
+        'Serving five hundred hungry classmates in under thirty minutes teaches you more about logistics, patience, and teamwork than any textbook ever could.',
+        'From counting plates to negotiating the last serving of Sunday special, mess duty turned reluctant volunteers into a tight-knit crew.',
+      ],
       image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1974&auto=format&fit=crop',
+      featured: false,
     },
     {
       id: 3,
       title: 'Beyond the Whiteboard',
       category: 'Academics',
       author: 'Priya V., Class X',
+      readTime: '2 min read',
       excerpt: 'When the syllabus ends, the real learning begins. A look at our late-night study circles.',
+      fullText: [
+        'When evening prep ends and the textbooks close, the real conversations begin on hostel verandas and classroom steps.',
+        'Solved past papers, shared notes, and half-whispered debates before lights-out made exam season feel like a collective effort rather than a solo race.',
+      ],
       image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop',
+      featured: false,
     },
   ],
   creativeWorks: [
     {
-      category: 'Poem',
+      category: 'Poetry',
       title: 'The Last Bell',
       excerpt: '“The bell still rings inside my head, long after the corridors have emptied.”',
+      fullText: 'The bell still rings inside my head,\nLong after the corridors have emptied.\nChalk dust settles on familiar desks,\nWhile our names remain carved in quiet corners.',
       author: 'JNV Student',
     },
     {
-      category: 'Short story',
+      category: 'Short Story',
       title: 'The Missing Spoon',
       excerpt: '“In a hostel of five hundred residents, every steel spoon has a secret life of its own.”',
+      fullText: 'In a hostel of five hundred residents, no steel spoon truly belongs to one person. It travels from breakfast poha to midnight Maggi, carrying stories across every dormitory.',
       author: 'JNV Student',
     },
     {
       category: 'Illustration',
       title: 'Courtyard at Dusk',
       excerpt: 'Pencil and watercolour, sketched between evening games and night prep.',
+      fullText: 'Drawn on the back page of a physics notebook just as the floodlights flickered on over the basketball court.',
       author: 'JNV Student',
     },
     {
       category: 'Essay',
       title: 'On Sharing a Room with Fifty People',
       excerpt: '“You can live with five hundred people and somehow still lose your own toothpaste.”',
+      fullText: 'Living in a Navodaya dormitory teaches you an unspoken code: a phone charger belongs to the floor, alarms wake everyone except their owner, and silence is a rare group achievement.',
       author: 'JNV Student',
+    },
+  ],
+  voices: [
+    {
+      quote: 'JNV gave me friendships I never expected. It gave me a second family.',
+      author: 'Student, Class XII',
+    },
+    {
+      quote: 'You can live with five hundred people and somehow still lose your own toothpaste.',
+      author: 'Hostel Resident',
     },
   ],
 };
 
-const avatarShades = ['#2B3A5E', '#7A3E3E', '#2F5A4A', '#5C4578', '#8C5B27', '#265E6E'];
+const avatarShades = ['#2B3A5E', '#6E3B3B', '#2F5246', '#4E3D69', '#78512A', '#265361'];
 
 const getPhotoUrl = (person) => {
   const url =
@@ -142,7 +191,13 @@ function PortraitCard({ person, index, onSelect }) {
       href="#people"
       onClick={(e) => {
         e.preventDefault();
-        onSelect(`${person.name}${roll ? ` (Roll ${roll})` : ''}: "${tagline}"`);
+        onSelect({
+          kicker: subtitle,
+          title: person.name,
+          author: `Batch of 2025–26${roll ? ` · Roll ${roll}` : ''}`,
+          paragraphs: [`“${tagline}”`],
+          image: photoUrl,
+        });
       }}
     >
       <div className="portrait-box" style={{ backgroundColor: bgShade }}>
@@ -174,8 +229,7 @@ export default function LightApp() {
     typeof window !== 'undefined' && window.location.hash === '#people' ? 'people' : 'home'
   );
   const [searchQuery, setSearchQuery] = useState('');
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastVisible, setToastVisible] = useState(false);
+  const [activeModal, setActiveModal] = useState(null);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -225,17 +279,6 @@ export default function LightApp() {
     });
   }, [sortedPeople, searchQuery]);
 
-  const triggerToast = (msg) => {
-    setToastMessage(msg);
-    setToastVisible(true);
-  };
-
-  useEffect(() => {
-    if (!toastVisible) return;
-    const timer = setTimeout(() => setToastVisible(false), 2400);
-    return () => clearTimeout(timer);
-  }, [toastVisible, toastMessage]);
-
   const openPeoplePage = (e) => {
     if (e) e.preventDefault();
     setMenuOpen(false);
@@ -266,8 +309,11 @@ export default function LightApp() {
     }
   };
 
+  const leadStory = siteData.stories[0];
+  const secondaryStories = siteData.stories.slice(1);
+
   return (
-    <div id="top" className="editorial-app">
+    <div id="top" className="editorial-root">
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..600&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&display=swap');
 
@@ -286,6 +332,7 @@ export default function LightApp() {
           font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
           font-size: 16px;
           line-height: 1.6;
+          -webkit-font-smoothing: antialiased;
         }
 
         a {
@@ -294,24 +341,25 @@ export default function LightApp() {
         }
 
         a:focus-visible,
-        button:focus-visible {
+        button:focus-visible,
+        input:focus-visible {
           outline: 2px solid #16213A;
           outline-offset: 3px;
         }
 
-        .editorial-app {
+        .editorial-root {
           min-height: 100vh;
           background: #F5EFE3;
           color: #16213A;
         }
 
-        .container {
+        .wrap {
           max-width: 1120px;
           margin: 0 auto;
           padding: 0 20px;
         }
 
-        /* Masthead */
+        /* Masthead (exact claudeWhite1.html structure) */
         .masthead {
           max-width: 1120px;
           margin: 0 auto;
@@ -322,20 +370,20 @@ export default function LightApp() {
           gap: 12px;
         }
 
-        .masthead-brand {
+        .brand-link {
           display: flex;
           flex-direction: column;
           line-height: 1.1;
         }
 
-        .masthead-title {
+        .brand-title {
           font-family: 'Fraunces', Georgia, serif;
           font-size: 24px;
           font-weight: 600;
           letter-spacing: -0.01em;
         }
 
-        .masthead-sub {
+        .brand-sub {
           font-size: 10px;
           letter-spacing: 0.22em;
           text-transform: uppercase;
@@ -344,28 +392,29 @@ export default function LightApp() {
           margin-top: 3px;
         }
 
-        .masthead-actions {
+        .masthead-right {
           display: flex;
           align-items: center;
           gap: 10px;
         }
 
-        .desktop-nav {
+        .desktop-links {
           display: none;
+          align-items: center;
           gap: 24px;
-          margin-right: 12px;
-          font-size: 15px;
+          margin-right: 10px;
+          font-size: 14px;
           font-weight: 500;
           color: #4B5468;
         }
 
-        .desktop-nav a:hover,
-        .desktop-nav a.active {
+        .desktop-links a:hover,
+        .desktop-links a.active {
           color: #16213A;
           font-weight: 600;
         }
 
-        .dark-link {
+        .dark-pill {
           height: 44px;
           padding: 0 16px;
           border-radius: 999px;
@@ -380,7 +429,7 @@ export default function LightApp() {
           transition: background 0.15s, color 0.15s;
         }
 
-        .dark-link:hover {
+        .dark-pill:hover {
           background: #16213A;
           color: #F5EFE3;
         }
@@ -405,29 +454,48 @@ export default function LightApp() {
           color: #F5EFE3;
         }
 
-        /* Mobile Drawer */
-        .mobile-drawer {
+        /* Full-width Dark Navy Drawer */
+        .nav-drawer {
           background: #16213A;
           color: #F5EFE3;
           padding: 12px 20px 28px;
         }
 
-        .mobile-drawer-inner {
+        .nav-drawer-inner {
           max-width: 1120px;
           margin: 0 auto;
           display: flex;
           flex-direction: column;
         }
 
-        .mobile-drawer-inner a {
+        .nav-drawer-inner a {
           font-family: 'Fraunces', Georgia, serif;
           font-size: 30px;
           padding: 14px 0;
           border-bottom: 1px solid rgba(245, 239, 227, 0.18);
-          color: #F5EFE3;
         }
 
-        /* Buttons */
+        /* Dateline Bar */
+        .dateline {
+          border-top: 1px solid #16213A;
+          border-bottom: 1px solid rgba(22, 33, 58, 0.2);
+          padding: 10px 0;
+          font-size: 11px;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: #4B5468;
+          font-weight: 600;
+        }
+
+        .dateline-inner {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        /* Buttons (claudeWhite1.html) */
         .btn {
           display: inline-flex;
           align-items: center;
@@ -471,9 +539,9 @@ export default function LightApp() {
         }
 
         /* Hero */
-        .hero-sec {
-          padding: 40px 0 64px;
-          border-bottom: 1px solid rgba(22, 33, 58, 0.15);
+        .hero-section {
+          padding: 36px 0 64px;
+          border-bottom: 1px solid rgba(22, 33, 58, 0.16);
         }
 
         .kicker {
@@ -482,17 +550,22 @@ export default function LightApp() {
           text-transform: uppercase;
           color: #4B5468;
           font-weight: 600;
-          margin-bottom: 16px;
+          margin-bottom: 14px;
         }
 
         .hero-title {
           font-family: 'Fraunces', Georgia, serif;
           font-size: 48px;
           font-weight: 600;
-          line-height: 0.98;
+          line-height: 0.96;
           letter-spacing: -0.025em;
           margin: 0 0 22px;
           max-width: 13ch;
+        }
+
+        .hero-title em {
+          font-style: italic;
+          font-weight: 400;
         }
 
         .hero-lede {
@@ -500,19 +573,44 @@ export default function LightApp() {
           line-height: 1.6;
           color: #4B5468;
           max-width: 48ch;
-          margin: 0 0 30px;
+          margin: 0 0 28px;
         }
 
-        .hero-actions {
+        .hero-ctas {
           display: flex;
           flex-wrap: wrap;
           gap: 12px;
+          margin-bottom: 40px;
+        }
+
+        .cover-frame {
+          border-radius: 6px;
+          overflow: hidden;
+          border: 1px solid rgba(22, 33, 58, 0.16);
+          background: #EAE2D3;
+        }
+
+        .cover-frame img {
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          object-fit: cover;
+          display: block;
+        }
+
+        .cover-caption {
+          padding: 12px 16px;
+          font-family: 'Fraunces', Georgia, serif;
+          font-style: italic;
+          font-size: 14px;
+          color: #4B5468;
+          background: #FAF9F5;
+          border-top: 1px solid rgba(22, 33, 58, 0.12);
         }
 
         /* Sections */
-        .ed-sec {
+        .section-block {
           padding: 64px 0;
-          border-bottom: 1px solid rgba(22, 33, 58, 0.15);
+          border-bottom: 1px solid rgba(22, 33, 58, 0.16);
         }
 
         .sec-title {
@@ -521,29 +619,43 @@ export default function LightApp() {
           font-weight: 600;
           line-height: 1.06;
           letter-spacing: -0.02em;
-          margin: 0 0 8px;
+          margin: 0 0 10px;
         }
 
         .sec-sub {
           color: #4B5468;
           margin: 0 0 32px;
           font-size: 16px;
+          max-width: 46ch;
         }
 
-        /* Dropcap Letter */
-        .letter-layout {
+        /* Editorial Note & Dropcap (exact claudeWhite1.html rule) */
+        .note-layout {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 24px;
+          gap: 32px;
         }
 
-        .letter-copy {
-          max-width: 64ch;
+        .pull-box {
+          padding-top: 18px;
+          border-top: 2px solid #16213A;
+        }
+
+        .pull-quote {
+          font-family: 'Fraunces', Georgia, serif;
+          font-style: italic;
+          font-size: 22px;
+          line-height: 1.35;
+          margin: 0 0 12px;
+        }
+
+        .note-prose {
           font-size: 17px;
           line-height: 1.75;
+          max-width: 62ch;
         }
 
-        .letter-copy p {
+        .note-prose p {
           margin: 0 0 20px;
         }
 
@@ -556,11 +668,45 @@ export default function LightApp() {
           color: #16213A;
         }
 
-        .letter-sign {
+        .note-sign {
           font-family: 'Fraunces', Georgia, serif;
           font-style: italic;
           font-size: 20px;
-          margin-top: 8px;
+          margin-top: 10px;
+        }
+
+        /* Year Index (Chronology) */
+        .index-list {
+          border-top: 1px solid #16213A;
+        }
+
+        .index-row {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 4px;
+          padding: 18px 0;
+          border-bottom: 1px solid rgba(22, 33, 58, 0.16);
+        }
+
+        .index-meta {
+          font-size: 11px;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: #4B5468;
+          font-weight: 600;
+        }
+
+        .index-title {
+          font-family: 'Fraunces', Georgia, serif;
+          font-size: 22px;
+          font-weight: 600;
+          margin: 0;
+        }
+
+        .index-desc {
+          margin: 0;
+          color: #4B5468;
+          font-size: 15px;
         }
 
         /* People Grid */
@@ -581,6 +727,7 @@ export default function LightApp() {
           display: grid;
           place-items: center;
           margin-bottom: 12px;
+          border: 1px solid rgba(22, 33, 58, 0.14);
         }
 
         .portrait-box img {
@@ -626,8 +773,8 @@ export default function LightApp() {
           color: #4B5468;
         }
 
-        /* Search bar on /#people */
-        .search-input {
+        /* Search Input on /#people */
+        .search-field {
           width: 100%;
           max-width: 440px;
           height: 48px;
@@ -639,60 +786,91 @@ export default function LightApp() {
           color: #16213A;
           font-family: 'DM Sans', sans-serif;
           font-size: 15px;
-          outline: none;
         }
 
-        /* Stories Grid */
-        .stories-grid {
+        /* Stories Feature Layout */
+        .lead-story {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 28px;
+          background: #FAF9F5;
+          border: 1px solid rgba(22, 33, 58, 0.16);
+          border-radius: 6px;
+          overflow: hidden;
+          margin-bottom: 24px;
+        }
+
+        .lead-story-img img {
+          width: 100%;
+          height: 100%;
+          aspect-ratio: 16 / 10;
+          object-fit: cover;
+          display: block;
+        }
+
+        .lead-story-body {
+          padding: 24px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .lead-story-body h3 {
+          font-family: 'Fraunces', Georgia, serif;
+          font-size: 28px;
+          line-height: 1.12;
+          margin: 4px 0 12px;
+        }
+
+        .lead-story-body p {
+          margin: 0 0 18px;
+          color: #4B5468;
+        }
+
+        .sub-stories-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 24px;
         }
 
         .story-card {
           display: block;
           background: #FAF9F5;
-          border: 1px solid rgba(22, 33, 58, 0.14);
-          border-radius: 8px;
+          border: 1px solid rgba(22, 33, 58, 0.16);
+          border-radius: 6px;
           overflow: hidden;
         }
 
-        .story-thumb {
-          aspect-ratio: 16 / 10;
-          overflow: hidden;
-          background: #16213A;
-        }
-
-        .story-thumb img {
+        .story-card img {
           width: 100%;
-          height: 100%;
+          aspect-ratio: 16 / 10;
           object-fit: cover;
           display: block;
         }
 
-        .story-content {
+        .story-card-body {
           padding: 20px;
         }
 
-        .story-content h3 {
+        .story-card-body h3 {
           font-family: 'Fraunces', Georgia, serif;
           font-size: 22px;
-          margin: 6px 0 8px;
           line-height: 1.2;
+          margin: 4px 0 8px;
         }
 
-        .story-content p {
-          margin: 0 0 12px;
+        .story-card-body p {
+          margin: 0 0 14px;
           color: #4B5468;
           font-size: 15px;
         }
 
-        .story-by {
+        .byline {
           font-size: 12px;
           font-weight: 600;
+          color: #16213A;
         }
 
-        /* Creative Grid */
+        /* Creative Anthology */
         .creative-grid {
           display: grid;
           grid-template-columns: 1fr;
@@ -700,53 +878,97 @@ export default function LightApp() {
         }
 
         .creative-card {
-          display: block;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
           background: #FAF9F5;
-          border: 1px solid rgba(22, 33, 58, 0.14);
-          border-radius: 8px;
+          border: 1px solid rgba(22, 33, 58, 0.16);
+          border-radius: 6px;
           padding: 24px;
+          transition: border-color 0.15s;
+        }
+
+        .creative-card:hover {
+          border-color: #16213A;
         }
 
         .creative-card h3 {
           font-family: 'Fraunces', Georgia, serif;
           font-size: 24px;
-          margin: 6px 0 10px;
+          margin: 4px 0 10px;
+          line-height: 1.2;
         }
 
         .creative-card p {
-          margin: 0 0 14px;
+          font-family: 'Fraunces', Georgia, serif;
+          font-style: italic;
           color: #4B5468;
+          margin: 0 0 18px;
+          font-size: 16px;
+        }
+
+        /* Voices / Overheard */
+        .voices-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+
+        .voice-item {
+          padding: 24px;
+          border-left: 3px solid #16213A;
+          background: #FAF9F5;
+        }
+
+        .voice-item blockquote {
+          margin: 0 0 10px;
+          font-family: 'Fraunces', Georgia, serif;
+          font-style: italic;
+          font-size: 21px;
+          line-height: 1.35;
+        }
+
+        .voice-item cite {
+          font-style: normal;
+          font-size: 12px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: #4B5468;
+          font-weight: 600;
         }
 
         /* Footer */
         .ed-footer {
           background: #16213A;
           color: #F5EFE3;
-          padding: 56px 0 44px;
+          padding: 64px 0 48px;
         }
 
         .ed-footer h2 {
           font-family: 'Fraunces', Georgia, serif;
-          font-size: 36px;
+          font-size: 38px;
           font-weight: 600;
           margin: 0 0 6px;
+          line-height: 1.05;
         }
 
-        .ed-footer-sub {
+        .ed-footer-sign {
           font-family: 'Fraunces', Georgia, serif;
           font-style: italic;
-          font-size: 20px;
-          color: rgba(245, 239, 227, 0.75);
-          margin: 0 0 28px;
+          font-size: 22px;
+          color: rgba(245, 239, 227, 0.78);
+          margin: 0 0 32px;
         }
 
         .ed-footer-nav {
           display: flex;
           flex-wrap: wrap;
-          gap: 20px;
+          gap: 22px;
+          padding-bottom: 24px;
           margin-bottom: 24px;
-          font-weight: 600;
+          border-bottom: 1px solid rgba(245, 239, 227, 0.18);
           font-size: 14px;
+          font-weight: 600;
         }
 
         .ed-footer-fine {
@@ -755,27 +977,57 @@ export default function LightApp() {
           color: rgba(245, 239, 227, 0.65);
         }
 
-        /* Toast */
-        .toast {
+        /* Editorial Reading Modal */
+        .modal-backdrop {
           position: fixed;
-          left: 50%;
-          bottom: 22px;
-          z-index: 40;
-          max-width: 90vw;
-          padding: 12px 18px;
-          border-radius: 8px;
-          background: #16213A;
-          color: #F5EFE3;
-          font-size: 0.9rem;
-          opacity: 0;
-          pointer-events: none;
-          transform: translate(-50%, 16px);
-          transition: opacity 0.25s, transform 0.25s;
+          inset: 0;
+          z-index: 50;
+          background: rgba(22, 33, 58, 0.65);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
         }
 
-        .toast.on {
-          opacity: 1;
-          transform: translate(-50%, 0);
+        .modal-sheet {
+          width: 100%;
+          max-width: 600px;
+          max-height: 85vh;
+          overflow-y: auto;
+          background: #F5EFE3;
+          color: #16213A;
+          border: 1.5px solid #16213A;
+          border-radius: 8px;
+          padding: 28px;
+        }
+
+        .modal-top {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 16px;
+          margin-bottom: 16px;
+        }
+
+        .modal-sheet h3 {
+          font-family: 'Fraunces', Georgia, serif;
+          font-size: 28px;
+          line-height: 1.15;
+          margin: 0 0 8px;
+        }
+
+        .modal-sheet img {
+          width: 100%;
+          max-height: 280px;
+          object-fit: cover;
+          border-radius: 6px;
+          margin-bottom: 18px;
+        }
+
+        .modal-sheet p {
+          margin: 0 0 16px;
+          font-size: 16px;
+          line-height: 1.7;
         }
 
         @media (min-width: 720px) {
@@ -785,24 +1037,32 @@ export default function LightApp() {
           .sec-title {
             font-size: 52px !important;
           }
-          .desktop-nav {
+          .desktop-links {
             display: flex;
           }
-          .menu-circle {
-            display: none;
-          }
-          .letter-layout {
+          .note-layout {
             grid-template-columns: 280px 1fr;
-            gap: 48px;
+            gap: 56px;
+          }
+          .index-row {
+            grid-template-columns: 160px 240px 1fr;
+            align-items: baseline;
+            gap: 20px;
           }
           .people-grid {
             grid-template-columns: repeat(3, 1fr);
             gap: 36px 24px;
           }
-          .stories-grid {
-            grid-template-columns: repeat(3, 1fr);
+          .lead-story {
+            grid-template-columns: 1.15fr 1fr;
+          }
+          .sub-stories-grid {
+            grid-template-columns: repeat(2, 1fr);
           }
           .creative-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          .voices-grid {
             grid-template-columns: repeat(2, 1fr);
           }
         }
@@ -810,13 +1070,13 @@ export default function LightApp() {
 
       {/* MASTHEAD */}
       <header className="masthead">
-        <a className="masthead-brand" href="#top" onClick={(e) => goHomeSection(e, null)}>
-          <span className="masthead-title">{siteData.meta.brand}</span>
-          <span className="masthead-sub">{siteData.meta.subBrand}</span>
+        <a href="#top" className="brand-link" onClick={(e) => goHomeSection(e, null)}>
+          <span className="brand-title">{siteData.meta.brand}</span>
+          <span className="brand-sub">{siteData.meta.subBrand}</span>
         </a>
 
-        <div className="masthead-actions">
-          <nav className="desktop-nav" aria-label="Main">
+        <div className="masthead-right">
+          <nav className="desktop-links" aria-label="Main">
             <a href="#note" onClick={(e) => goHomeSection(e, 'note')}>Our note</a>
             <a
               href="#people"
@@ -831,7 +1091,7 @@ export default function LightApp() {
             <a href="#creative" onClick={(e) => goHomeSection(e, 'creative')}>Creative</a>
           </nav>
 
-          <a href="../" className="dark-link" aria-label="Switch to Dark Version">
+          <a href="../" className="dark-pill" aria-label="Switch to Dark Version">
             ☾ Dark
           </a>
 
@@ -854,10 +1114,10 @@ export default function LightApp() {
         </div>
       </header>
 
-      {/* MOBILE DRAWER */}
+      {/* EXPANDABLE DARK NAVY MENU DRAWER */}
       {menuOpen && (
-        <nav aria-label="Main" className="mobile-drawer">
-          <div className="mobile-drawer-inner">
+        <nav aria-label="Main" className="nav-drawer">
+          <div className="nav-drawer-inner">
             <a href="#note" onClick={(e) => goHomeSection(e, 'note')}>Our note</a>
             <a href="#people" onClick={openPeoplePage}>People</a>
             <a href="#photos" onClick={(e) => goHomeSection(e, 'photos')}>Stories</a>
@@ -867,9 +1127,17 @@ export default function LightApp() {
         </nav>
       )}
 
+      {/* ISSUE DATELINE */}
+      <div className="dateline">
+        <div className="wrap dateline-inner">
+          <span>{siteData.meta.issueLeft}</span>
+          <span>{siteData.meta.issueRight}</span>
+        </div>
+      </div>
+
       {activePage === 'people' ? (
-        /* FULL /#people DIRECTORY PAGE */
-        <main className="container" style={{ paddingTop: '36px', paddingBottom: '72px' }}>
+        /* DEDICATED /#people DIRECTORY PAGE */
+        <main className="wrap" style={{ paddingTop: '40px', paddingBottom: '80px' }}>
           <div style={{ marginBottom: '28px' }}>
             <a href="#top" className="btn" onClick={(e) => goHomeSection(e, null)}>
               ← Back to magazine
@@ -882,7 +1150,7 @@ export default function LightApp() {
 
           <input
             type="search"
-            className="search-input"
+            className="search-field"
             placeholder="Search by name, roll number, or class..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -900,21 +1168,25 @@ export default function LightApp() {
                   key={person.id || `${person.name}-${idx}`}
                   person={person}
                   index={idx}
-                  onSelect={triggerToast}
+                  onSelect={setActiveModal}
                 />
               ))}
             </div>
           )}
         </main>
       ) : (
-        /* EDITORIAL HOME PAGE */
-        <main className="container">
+        /* MAIN EDITORIAL MAGAZINE PAGE */
+        <main className="wrap">
           {/* HERO */}
-          <section className="hero-sec">
-            <div className="kicker">JNV Varanasi · Edition 2025–26</div>
-            <h1 className="hero-title">{siteData.meta.heroTitle}</h1>
+          <section className="hero-section">
+            <div className="kicker">{siteData.meta.kicker}</div>
+            <h1 className="hero-title">
+              {siteData.meta.heroTitlePre}
+              <em>{siteData.meta.heroTitleItalic}</em>
+              {siteData.meta.heroTitlePost}
+            </h1>
             <p className="hero-lede">{siteData.meta.lede}</p>
-            <div className="hero-actions">
+            <div className="hero-ctas">
               <a className="btn-fill" href="#people" onClick={openPeoplePage}>
                 Meet the batch
               </a>
@@ -922,30 +1194,55 @@ export default function LightApp() {
                 Read our note
               </a>
             </div>
+
+            <figure className="cover-frame" style={{ margin: 0 }}>
+              <img src={siteData.meta.coverImage} alt="JNV Varanasi Campus" />
+              <figcaption className="cover-caption">{siteData.meta.coverCaption}</figcaption>
+            </figure>
           </section>
 
-          {/* NOTE WITH DROPCAP */}
-          <section id="note" className="ed-sec">
-            <div className="letter-layout">
-              <div>
-                <div className="kicker">01 / Introduction</div>
-                <h2 className="sec-title">A note from us</h2>
-                <p className="sec-sub">Written by all of us, on the last page of the year.</p>
-              </div>
-              <div className="letter-copy">
+          {/* 01 / OUR NOTE WITH DROPCAP */}
+          <section id="note" className="section-block">
+            <div className="kicker">01 / Introduction</div>
+            <h2 className="sec-title" style={{ marginBottom: '32px' }}>A note from us</h2>
+
+            <div className="note-layout">
+              <aside className="pull-box">
+                <p className="pull-quote">{siteData.intro.pullQuote}</p>
+                <div className="kicker" style={{ marginBottom: 0 }}>{siteData.intro.pullCaption}</div>
+              </aside>
+
+              <div className="note-prose">
                 {siteData.intro.paragraphs.map((para, idx) => (
                   <p key={idx} className={idx === 0 ? 'dropcap' : ''}>
                     {para}
                   </p>
                 ))}
-                <p className="letter-sign">— {siteData.intro.signOff}</p>
+                <p className="note-sign">— {siteData.intro.signOff}</p>
               </div>
             </div>
           </section>
 
-          {/* PEOPLE PREVIEW */}
-          <section id="people-preview" className="ed-sec">
-            <div className="kicker">02 / The Batch</div>
+          {/* 02 / THE YEAR IN CHAPTERS */}
+          <section className="section-block">
+            <div className="kicker">02 / Chronology</div>
+            <h2 className="sec-title">The academic year</h2>
+            <p className="sec-sub">Five milestones that shaped the calendar from July to February.</p>
+
+            <div className="index-list">
+              {siteData.timeline.map((item) => (
+                <div key={item.num} className="index-row">
+                  <span className="index-meta">{item.num} · {item.month}</span>
+                  <h3 className="index-title">{item.event}</h3>
+                  <p className="index-desc">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* 03 / PEOPLE PREVIEW */}
+          <section id="people-preview" className="section-block">
+            <div className="kicker">03 / The Batch</div>
             <h2 className="sec-title">People</h2>
             <p className="sec-sub">The faces behind the batch. Powered live by our directory.</p>
 
@@ -958,7 +1255,7 @@ export default function LightApp() {
                     key={person.id || `${person.name}-${idx}`}
                     person={person}
                     index={idx}
-                    onSelect={triggerToast}
+                    onSelect={setActiveModal}
                   />
                 ))}
               </div>
@@ -971,40 +1268,73 @@ export default function LightApp() {
             </div>
           </section>
 
-          {/* STORIES */}
-          <section id="photos" className="ed-sec">
-            <div className="kicker">03 / Campus Chronicles</div>
+          {/* 04 / CAMPUS STORIES */}
+          <section id="photos" className="section-block">
+            <div className="kicker">04 / Campus Chronicles</div>
             <h2 className="sec-title">Stories &amp; moments</h2>
             <p className="sec-sub">Campus corners and small moments we want to keep.</p>
 
-            <div className="stories-grid">
-              {siteData.stories.map((story) => (
+            {/* Featured Story */}
+            <a
+              className="lead-story"
+              href="#photos"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveModal({
+                  kicker: `${leadStory.category} · ${leadStory.readTime}`,
+                  title: leadStory.title,
+                  author: `By ${leadStory.author}`,
+                  paragraphs: leadStory.fullText,
+                  image: leadStory.image,
+                });
+              }}
+            >
+              <div className="lead-story-img">
+                <img src={leadStory.image} alt={leadStory.title} loading="lazy" />
+              </div>
+              <div className="lead-story-body">
+                <div className="kicker" style={{ marginBottom: '6px' }}>
+                  Featured · {leadStory.category}
+                </div>
+                <h3>{leadStory.title}</h3>
+                <p>{leadStory.excerpt}</p>
+                <span className="byline">By {leadStory.author} · {leadStory.readTime} →</span>
+              </div>
+            </a>
+
+            {/* Secondary Stories */}
+            <div className="sub-stories-grid">
+              {secondaryStories.map((story) => (
                 <a
                   key={story.id}
                   className="story-card"
                   href="#photos"
                   onClick={(e) => {
                     e.preventDefault();
-                    triggerToast(`${story.title} — ${story.author}`);
+                    setActiveModal({
+                      kicker: `${story.category} · ${story.readTime}`,
+                      title: story.title,
+                      author: `By ${story.author}`,
+                      paragraphs: story.fullText,
+                      image: story.image,
+                    });
                   }}
                 >
-                  <div className="story-thumb">
-                    <img src={story.image} alt={story.title} loading="lazy" />
-                  </div>
-                  <div className="story-content">
-                    <div className="kicker" style={{ marginBottom: 0 }}>{story.category}</div>
+                  <img src={story.image} alt={story.title} loading="lazy" />
+                  <div className="story-card-body">
+                    <div className="kicker" style={{ marginBottom: '4px' }}>{story.category}</div>
                     <h3>{story.title}</h3>
                     <p>{story.excerpt}</p>
-                    <span className="story-by">By {story.author}</span>
+                    <span className="byline">By {story.author} →</span>
                   </div>
                 </a>
               ))}
             </div>
           </section>
 
-          {/* CREATIVE WORK */}
-          <section id="creative" className="ed-sec" style={{ borderBottom: 'none' }}>
-            <div className="kicker">04 / Margins</div>
+          {/* 05 / CREATIVE ANTHOLOGY */}
+          <section id="creative" className="section-block">
+            <div className="kicker">05 / Margins</div>
             <h2 className="sec-title">Creative work</h2>
             <p className="sec-sub">Poems, stories and sketches from the margins of our notebooks.</p>
 
@@ -1016,14 +1346,37 @@ export default function LightApp() {
                   href="#creative"
                   onClick={(e) => {
                     e.preventDefault();
-                    triggerToast(`Full ${work.category.toLowerCase()} coming soon`);
+                    setActiveModal({
+                      kicker: work.category,
+                      title: work.title,
+                      author: `By ${work.author}`,
+                      paragraphs: [work.fullText],
+                    });
                   }}
                 >
-                  <div className="kicker" style={{ marginBottom: 0 }}>{work.category}</div>
-                  <h3>{work.title}</h3>
-                  <p>{work.excerpt}</p>
-                  <span className="story-by">By {work.author}</span>
+                  <div>
+                    <div className="kicker" style={{ marginBottom: '4px' }}>{work.category}</div>
+                    <h3>{work.title}</h3>
+                    <p>{work.excerpt}</p>
+                  </div>
+                  <span className="byline">By {work.author} · Read piece →</span>
                 </a>
+              ))}
+            </div>
+          </section>
+
+          {/* 06 / VOICES */}
+          <section className="section-block" style={{ borderBottom: 'none' }}>
+            <div className="kicker">06 / Overheard</div>
+            <h2 className="sec-title">Campus voices</h2>
+            <p className="sec-sub">Lines heard in corridors, classrooms, and hostel rooms.</p>
+
+            <div className="voices-grid">
+              {siteData.voices.map((v, idx) => (
+                <div key={idx} className="voice-item">
+                  <blockquote>“{v.quote}”</blockquote>
+                  <cite>— {v.author}</cite>
+                </div>
               ))}
             </div>
           </section>
@@ -1032,9 +1385,9 @@ export default function LightApp() {
 
       {/* FOOTER */}
       <footer className="ed-footer">
-        <div className="container">
+        <div className="wrap">
           <h2>{siteData.meta.footerBye}</h2>
-          <p className="ed-footer-sub">{siteData.meta.footerSign}</p>
+          <p className="ed-footer-sign">{siteData.meta.footerSign}</p>
           <nav className="ed-footer-nav">
             <a href="#people" onClick={openPeoplePage}>People</a>
             <a href="#photos" onClick={(e) => goHomeSection(e, 'photos')}>Stories</a>
@@ -1045,9 +1398,38 @@ export default function LightApp() {
         </div>
       </footer>
 
-      <div className={`toast ${toastVisible ? 'on' : ''}`} role="status" aria-live="polite">
-        {toastMessage}
-      </div>
+      {/* EDITORIAL READING MODAL */}
+      {activeModal && (
+        <div
+          className="modal-backdrop"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setActiveModal(null)}
+        >
+          <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-top">
+              <div>
+                <div className="kicker" style={{ marginBottom: '6px' }}>{activeModal.kicker}</div>
+                <h3>{activeModal.title}</h3>
+                <div className="byline">{activeModal.author}</div>
+              </div>
+              <button
+                type="button"
+                className="menu-circle"
+                aria-label="Close"
+                onClick={() => setActiveModal(null)}
+                style={{ width: '40px', height: '40px', flexShrink: 0 }}
+              >
+                ✕
+              </button>
+            </div>
+            {activeModal.image && <img src={activeModal.image} alt={activeModal.title} />}
+            {activeModal.paragraphs.map((line, i) => (
+              <p key={i} style={{ whiteSpace: 'pre-line' }}>{line}</p>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
