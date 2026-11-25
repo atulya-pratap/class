@@ -9,7 +9,7 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 const siteData = {
   meta: {
     brand: 'The Chronicle',
-    note: 'jnv varanasi · 2025–27, with love',
+    note: 'jnv varanasi · 2025–-27, with love',
     headline: ['A year', 'worth', 'remem-', 'bering.'],
     lede: 'A magazine of the people, places, and quiet spaces between the bells that made our school days ours.',
     footerBye: 'The year ends.',
