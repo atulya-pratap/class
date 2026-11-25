@@ -128,13 +128,6 @@ const getRollNumber = (person) => {
   return String(raw).trim();
 };
 
-const parseRollNumeric = (rollStr) => {
-  if (!rollStr) return Number.POSITIVE_INFINITY;
-  const digits = rollStr.replace(/\D/g, '');
-  if (!digits) return Number.POSITIVE_INFINITY;
-  return parseInt(digits, 10);
-};
-
 const sortStudents = (list) => {
   return [...list].sort((a, b) => {
     const aHasPhoto = getPhotoUrl(a) ? 1 : 0;
@@ -145,15 +138,10 @@ const sortStudents = (list) => {
       return bHasPhoto - aHasPhoto;
     }
 
-    // 2. Then sort by roll number (ascending)
-    const aRoll = parseRollNumeric(getRollNumber(a));
-    const bRoll = parseRollNumeric(getRollNumber(b));
-    if (aRoll !== bRoll) {
-      return aRoll - bRoll;
-    }
-
-    // 3. Fallback alphabetical by name
-    return (a?.name || '').localeCompare(b?.name || '');
+    // 2. Then sort alphabetically by name (dictionary order)
+    const aName = (a?.name || '').trim();
+    const bName = (b?.name || '').trim();
+    return aName.localeCompare(bName, undefined, { sensitivity: 'base' });
   });
 };
 
@@ -835,7 +823,7 @@ export default function App() {
 
           <p className="note">batch directory · {sortedPeople.length} members</p>
           <h2>People</h2>
-          <p className="sub">Sorted by uploaded photos first, then by roll number.</p>
+          <p className="sub">Sorted by uploaded photos first, then alphabetically by name.</p>
 
           <input
             type="search"
@@ -916,7 +904,7 @@ export default function App() {
             </article>
           </section>
 
-          {/* PEOPLE PREVIEW (SORTED BY PHOTO THEN ROLL NO) */}
+          {/* PEOPLE PREVIEW (SORTED BY PHOTO THEN ALPHABETICALLY BY NAME) */}
           <section id="people-preview" className="chronicle-section">
             <h2>People</h2>
             <p className="sub">The faces behind the batch. Powered live by our directory.</p>
