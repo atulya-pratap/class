@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 // Your actual Supabase Credentials
@@ -9,7 +9,7 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 const siteData = {
   meta: {
     brand: 'The Chronicle',
-    note: 'jnv varanasi · 2025–-27, with love',
+    note: 'jnv varanasi · 2025–26, with love',
     headline: ['A year', 'worth', 'remem-', 'bering.'],
     lede: 'A magazine of the people, places, and quiet spaces between the bells that made our school days ours.',
     footerBye: 'The year ends.',
@@ -37,10 +37,10 @@ const siteData = {
     signOff: 'JNV Varanasi, with love',
   },
   peopleFallback: [
-    { id: 1, name: 'Aarav Sharma', role: 'School Captain', quote: 'lead by example', image_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop' },
-    { id: 2, name: 'Dr. K. Singh', role: 'Principal', quote: 'excellence is a habit', image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop' },
-    { id: 3, name: 'Neha Verma', role: 'Sports Secretary', quote: 'leave it on the field', image_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop' },
-    { id: 4, name: 'Vikram R.', role: 'Cultural Sec', quote: 'art speaks', image_url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop' },
+    { id: 1, name: 'Aarav Sharma', role: 'School Captain', roll_no: 1, quote: 'lead by example', image_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop' },
+    { id: 2, name: 'Dr. K. Singh', role: 'Principal', roll_no: 2, quote: 'excellence is a habit', image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop' },
+    { id: 3, name: 'Neha Verma', role: 'Sports Secretary', roll_no: 3, quote: 'leave it on the field', image_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop' },
+    { id: 4, name: 'Vikram R.', role: 'Cultural Sec', roll_no: 4, quote: 'art speaks', image_url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop' },
   ],
   stories: [
     {
@@ -105,12 +105,119 @@ const siteData = {
 
 const badgeColors = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6'];
 
+const getPhotoUrl = (person) => {
+  const url =
+    person?.image_url ||
+    person?.photo_url ||
+    person?.avatar_url ||
+    person?.photo ||
+    person?.image;
+  return typeof url === 'string' && url.trim() !== '' ? url.trim() : null;
+};
+
+const getRollNumber = (person) => {
+  const raw =
+    person?.roll_no ??
+    person?.roll ??
+    person?.rollNo ??
+    person?.roll_number ??
+    person?.rollnumber;
+  if (raw === null || raw === undefined || String(raw).trim() === '') {
+    return null;
+  }
+  return String(raw).trim();
+};
+
+const parseRollNumeric = (rollStr) => {
+  if (!rollStr) return Number.POSITIVE_INFINITY;
+  const digits = rollStr.replace(/\D/g, '');
+  if (!digits) return Number.POSITIVE_INFINITY;
+  return parseInt(digits, 10);
+};
+
+const sortStudents = (list) => {
+  return [...list].sort((a, b) => {
+    const aHasPhoto = getPhotoUrl(a) ? 1 : 0;
+    const bHasPhoto = getPhotoUrl(b) ? 1 : 0;
+
+    // 1. Prefer students who have uploaded a photo
+    if (aHasPhoto !== bHasPhoto) {
+      return bHasPhoto - aHasPhoto;
+    }
+
+    // 2. Then sort by roll number (ascending)
+    const aRoll = parseRollNumeric(getRollNumber(a));
+    const bRoll = parseRollNumeric(getRollNumber(b));
+    if (aRoll !== bRoll) {
+      return aRoll - bRoll;
+    }
+
+    // 3. Fallback alphabetical by name
+    return (a?.name || '').localeCompare(b?.name || '');
+  });
+};
+
+function StudentCard({ person, index, onSelect }) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const photoUrl = !imgFailed ? getPhotoUrl(person) : null;
+  const roll = getRollNumber(person);
+  const colorClass = badgeColors[index % badgeColors.length];
+
+  const baseRole = person.role || (person.class ? `Class ${person.class}` : '');
+  const subtitle = [baseRole, roll ? `Roll ${roll}` : ''].filter(Boolean).join(' · ') || 'JNV Varanasi';
+  const tagline = person.quote || person.favourite_quote || 'batch of 2025–26';
+
+  return (
+    <a
+      className="id"
+      href="#people"
+      onClick={(e) => {
+        e.preventDefault();
+        onSelect(`${person.name}${roll ? ` (Roll ${roll})` : ''}: "${tagline}"`);
+      }}
+    >
+      <i className="slot" />
+      <div className={`ph ${colorClass}`}>
+        {photoUrl ? (
+          <img
+            src={photoUrl}
+            alt={person.name}
+            loading="lazy"
+            onError={() => setImgFailed(true)}
+          />
+        ) : (
+          <b>{person.name ? person.name.charAt(0).toUpperCase() : '?'}</b>
+        )}
+      </div>
+      <strong>{person.name}</strong>
+      <small>{subtitle}</small>
+      <em>{tagline}</em>
+    </a>
+  );
+}
+
 export default function App() {
   const [peopleData, setPeopleData] = useState([]);
   const [loadingPeople, setLoadingPeople] = useState(true);
-  const [showAllPeople, setShowAllPeople] = useState(false);
+  const [activePage, setActivePage] = useState(() =>
+    typeof window !== 'undefined' && window.location.hash === '#people' ? 'people' : 'home'
+  );
+  const [searchQuery, setSearchQuery] = useState('');
   const [toastMessage, setToastMessage] = useState('');
   const [toastVisible, setToastVisible] = useState(false);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#people') {
+        setActivePage('people');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setActivePage('home');
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   useEffect(() => {
     const fetchPeople = async () => {
@@ -133,6 +240,20 @@ export default function App() {
     fetchPeople();
   }, []);
 
+  const sortedPeople = useMemo(() => sortStudents(peopleData), [peopleData]);
+
+  const filteredAllPeople = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return sortedPeople;
+    return sortedPeople.filter((p) => {
+      const name = (p.name || '').toLowerCase();
+      const role = (p.role || '').toLowerCase();
+      const cls = String(p.class || '').toLowerCase();
+      const roll = String(getRollNumber(p) || '').toLowerCase();
+      return name.includes(q) || role.includes(q) || cls.includes(q) || roll.includes(q);
+    });
+  }, [sortedPeople, searchQuery]);
+
   const triggerToast = (msg) => {
     setToastMessage(msg);
     setToastVisible(true);
@@ -144,7 +265,33 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [toastVisible, toastMessage]);
 
-  const visiblePeople = showAllPeople ? peopleData : peopleData.slice(0, 6);
+  const openPeoplePage = (e) => {
+    if (e) e.preventDefault();
+    if (window.location.hash !== '#people') {
+      window.location.hash = 'people';
+    }
+    setActivePage('people');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const goHomeSection = (e, sectionId) => {
+    if (e) e.preventDefault();
+    if (activePage !== 'home') {
+      window.history.pushState(null, '', window.location.pathname + window.location.search);
+      setActivePage('home');
+      setTimeout(() => {
+        if (sectionId) {
+          document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 40);
+    } else if (sectionId) {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div id="top" className="chronicle-app">
@@ -244,8 +391,10 @@ export default function App() {
           color: var(--muted);
           transition: color 0.15s;
         }
-        .bar nav a:hover {
+        .bar nav a:hover,
+        .bar nav a.active {
           color: var(--blue);
+          font-weight: 700;
         }
 
         /* Hero */
@@ -300,6 +449,11 @@ export default function App() {
           background: var(--blue);
           color: var(--on-blue);
         }
+        .btn.small {
+          min-height: 40px;
+          padding: 0 16px;
+          font-size: 0.88rem;
+        }
 
         /* Autograph / Scribble Wall */
         .wall {
@@ -325,6 +479,9 @@ export default function App() {
         .chronicle-section {
           padding-top: 68px;
         }
+        .people-page {
+          padding-top: 32px;
+        }
         .chronicle-app h2 {
           margin: 0 0 6px;
           font: 800 clamp(2.3rem, 11vw, 3.4rem)/1 var(--sans);
@@ -339,6 +496,24 @@ export default function App() {
           display: flex;
           justify-content: center;
           margin-top: 36px;
+        }
+
+        /* Search Input for /#people page */
+        .search-bar {
+          width: 100%;
+          min-height: 46px;
+          padding: 0 16px;
+          margin-bottom: 26px;
+          border: 2px solid var(--ink);
+          border-radius: 8px;
+          background: var(--card);
+          color: var(--ink);
+          font: 500 0.95rem/1 var(--sans);
+          box-shadow: 3px 3px 0 var(--ink);
+          outline: none;
+        }
+        .search-bar::placeholder {
+          color: var(--muted);
         }
 
         /* Placeholder & Striped Colors */
@@ -626,166 +801,198 @@ export default function App() {
       {/* TOP BAR */}
       <header className="bar">
         <div className="wrap">
-          <a className="brand" href="#top">{siteData.meta.brand}</a>
+          <a className="brand" href="#top" onClick={(e) => goHomeSection(e, null)}>
+            {siteData.meta.brand}
+          </a>
           <nav>
-            <a href="#people">People</a>
-            <a href="#photos">Stories</a>
-            <a href="#creative">Creative</a>
+            <a
+              href="#people"
+              className={activePage === 'people' ? 'active' : ''}
+              onClick={(e) =>
+                activePage === 'people' ? openPeoplePage(e) : goHomeSection(e, 'people-preview')
+              }
+            >
+              People
+            </a>
+            <a href="#photos" onClick={(e) => goHomeSection(e, 'photos')}>
+              Stories
+            </a>
+            <a href="#creative" onClick={(e) => goHomeSection(e, 'creative')}>
+              Creative
+            </a>
           </nav>
         </div>
       </header>
 
-      <main className="wrap">
-        {/* HERO */}
-        <section className="hero">
-          <p className="note">{siteData.meta.note}</p>
-          <h1>
-            {siteData.meta.headline.map((line, i) => (
-              <React.Fragment key={i}>
-                {line}
-                {i < siteData.meta.headline.length - 1 && <br />}
-              </React.Fragment>
-            ))}
-          </h1>
-          <p className="lede">{siteData.meta.lede}</p>
-          <div className="cta">
-            <a className="btn solid" href="#people">Meet the batch</a>
-            <a className="btn" href="#note">Read our note</a>
+      {activePage === 'people' ? (
+        /* FULL /#people DIRECTORY PAGE */
+        <main className="wrap people-page">
+          <div style={{ marginBottom: '22px' }}>
+            <a href="#top" className="btn small" onClick={(e) => goHomeSection(e, null)}>
+              ← Back to magazine
+            </a>
           </div>
 
-          <div className="wall" aria-label="Last-day messages and Navodayan memories">
-            {siteData.wallScribbles.map((item, idx) => (
-              <span
-                key={idx}
-                style={{
-                  '--c': item.color,
-                  '--r': item.rotate,
-                  ...(item.size ? { fontSize: item.size } : {}),
-                }}
-              >
-                {item.text}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        {/* NOTE ON RULED PAPER */}
-        <section id="note" className="chronicle-section">
-          <h2>A note from us</h2>
-          <p className="sub">Written by all of us, on the last page of the year.</p>
-          <article className="paper">
-            <p className="hand">{siteData.intro.greeting}</p>
-            {siteData.intro.paragraphs.map((para, idx) => (
-              <p key={idx}>{para}</p>
-            ))}
-            <p className="hand">{siteData.intro.signOff}</p>
-          </article>
-        </section>
-
-        {/* PEOPLE (LANYARD ID CARDS FROM SUPABASE) */}
-        <section id="people" className="chronicle-section">
+          <p className="note">batch directory · {sortedPeople.length} members</p>
           <h2>People</h2>
-          <p className="sub">The faces behind the batch. Powered live by our directory.</p>
+          <p className="sub">Sorted by uploaded photos first, then by roll number.</p>
+
+          <input
+            type="search"
+            className="search-bar"
+            placeholder="Search by name, roll number, or class..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            aria-label="Search students"
+          />
 
           {loadingPeople ? (
             <p className="sub">Loading batch directory...</p>
+          ) : filteredAllPeople.length === 0 ? (
+            <p className="sub">No matching students found for “{searchQuery}”.</p>
           ) : (
             <div className="people">
-              {visiblePeople.map((person, idx) => {
-                const photoUrl = person.image_url || person.photo_url;
-                const colorClass = badgeColors[idx % badgeColors.length];
-                const roleLabel = person.role || (person.class ? `Class ${person.class}` : 'JNV Varanasi');
-                const tagline = person.quote || person.favourite_quote || 'batch of 2025–26';
-
-                return (
-                  <a
-                    key={person.id || idx}
-                    className="id"
-                    href="#people"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      triggerToast(`${person.name}: "${tagline}"`);
-                    }}
-                  >
-                    <i className="slot" />
-                    <div className={`ph ${colorClass}`}>
-                      {photoUrl ? (
-                        <img src={photoUrl} alt={person.name} />
-                      ) : (
-                        <b>{person.name ? person.name.charAt(0).toUpperCase() : '?'}</b>
-                      )}
-                    </div>
-                    <strong>{person.name}</strong>
-                    <small>{roleLabel}</small>
-                    <em>{tagline}</em>
-                  </a>
-                );
-              })}
+              {filteredAllPeople.map((person, idx) => (
+                <StudentCard
+                  key={person.id || `${person.name}-${idx}`}
+                  person={person}
+                  index={idx}
+                  onSelect={triggerToast}
+                />
+              ))}
             </div>
           )}
+        </main>
+      ) : (
+        /* MAIN MAGAZINE HOME PAGE */
+        <main className="wrap">
+          {/* HERO */}
+          <section className="hero">
+            <p className="note">{siteData.meta.note}</p>
+            <h1>
+              {siteData.meta.headline.map((line, i) => (
+                <React.Fragment key={i}>
+                  {line}
+                  {i < siteData.meta.headline.length - 1 && <br />}
+                </React.Fragment>
+              ))}
+            </h1>
+            <p className="lede">{siteData.meta.lede}</p>
+            <div className="cta">
+              <a className="btn solid" href="#people" onClick={openPeoplePage}>
+                Meet the batch
+              </a>
+              <a className="btn" href="#note" onClick={(e) => goHomeSection(e, 'note')}>
+                Read our note
+              </a>
+            </div>
 
-          {peopleData.length > 6 && (
+            <div className="wall" aria-label="Last-day messages and Navodayan memories">
+              {siteData.wallScribbles.map((item, idx) => (
+                <span
+                  key={idx}
+                  style={{
+                    '--c': item.color,
+                    '--r': item.rotate,
+                    ...(item.size ? { fontSize: item.size } : {}),
+                  }}
+                >
+                  {item.text}
+                </span>
+              ))}
+            </div>
+          </section>
+
+          {/* NOTE ON RULED PAPER */}
+          <section id="note" className="chronicle-section">
+            <h2>A note from us</h2>
+            <p className="sub">Written by all of us, on the last page of the year.</p>
+            <article className="paper">
+              <p className="hand">{siteData.intro.greeting}</p>
+              {siteData.intro.paragraphs.map((para, idx) => (
+                <p key={idx}>{para}</p>
+              ))}
+              <p className="hand">{siteData.intro.signOff}</p>
+            </article>
+          </section>
+
+          {/* PEOPLE PREVIEW (SORTED BY PHOTO THEN ROLL NO) */}
+          <section id="people-preview" className="chronicle-section">
+            <h2>People</h2>
+            <p className="sub">The faces behind the batch. Powered live by our directory.</p>
+
+            {loadingPeople ? (
+              <p className="sub">Loading batch directory...</p>
+            ) : (
+              <div className="people">
+                {sortedPeople.slice(0, 6).map((person, idx) => (
+                  <StudentCard
+                    key={person.id || `${person.name}-${idx}`}
+                    person={person}
+                    index={idx}
+                    onSelect={triggerToast}
+                  />
+                ))}
+              </div>
+            )}
+
             <div className="more">
-              <button
-                type="button"
-                className="btn"
-                onClick={() => setShowAllPeople((prev) => !prev)}
-              >
-                {showAllPeople ? 'Show fewer people' : `View all ${peopleData.length} people`}
-              </button>
+              <a className="btn" href="#people" onClick={openPeoplePage}>
+                View all people ({sortedPeople.length})
+              </a>
             </div>
-          )}
-        </section>
+          </section>
 
-        {/* STORIES & MOMENTS (POLAROID SNAPS) */}
-        <section id="photos" className="chronicle-section">
-          <h2>Stories &amp; moments</h2>
-          <p className="sub">Campus corners and small moments we want to keep.</p>
-          <div className="snaps">
-            {siteData.stories.map((story) => (
-              <a
-                key={story.id}
-                className="snap"
-                href="#photos"
-                onClick={(e) => {
-                  e.preventDefault();
-                  triggerToast(`${story.title} — ${story.author}`);
-                }}
-              >
-                <div className={`ph ${story.colorClass}`}>
-                  {story.image && <img src={story.image} alt={story.title} />}
-                </div>
-                <span>{story.caption}</span>
-              </a>
-            ))}
-          </div>
-        </section>
+          {/* STORIES & MOMENTS (POLAROID SNAPS) */}
+          <section id="photos" className="chronicle-section">
+            <h2>Stories &amp; moments</h2>
+            <p className="sub">Campus corners and small moments we want to keep.</p>
+            <div className="snaps">
+              {siteData.stories.map((story) => (
+                <a
+                  key={story.id}
+                  className="snap"
+                  href="#photos"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    triggerToast(`${story.title} — ${story.author}`);
+                  }}
+                >
+                  <div className={`ph ${story.colorClass}`}>
+                    {story.image && <img src={story.image} alt={story.title} />}
+                  </div>
+                  <span>{story.caption}</span>
+                </a>
+              ))}
+            </div>
+          </section>
 
-        {/* CREATIVE WORK (NOTEBOOK SHEETS WITH STICKY TABS) */}
-        <section id="creative" className="chronicle-section">
-          <h2>Creative work</h2>
-          <p className="sub">Poems, stories and sketches from the margins of our notebooks.</p>
-          <div className="works">
-            {siteData.creativeWorks.map((work, idx) => (
-              <a
-                key={idx}
-                className="paper work"
-                href="#creative"
-                onClick={(e) => {
-                  e.preventDefault();
-                  triggerToast(`Full ${work.category.toLowerCase()} coming soon`);
-                }}
-              >
-                <span className="tab">{work.category}</span>
-                {work.artColor && <div className={`ph art ${work.artColor}`} />}
-                <h3>{work.title}</h3>
-                <p>{work.excerpt}</p>
-                <p className="hand">by {work.author}</p>
-              </a>
-            ))}
-          </div>
-        </section>
-      </main>
+          {/* CREATIVE WORK (NOTEBOOK SHEETS WITH STICKY TABS) */}
+          <section id="creative" className="chronicle-section">
+            <h2>Creative work</h2>
+            <p className="sub">Poems, stories and sketches from the margins of our notebooks.</p>
+            <div className="works">
+              {siteData.creativeWorks.map((work, idx) => (
+                <a
+                  key={idx}
+                  className="paper work"
+                  href="#creative"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    triggerToast(`Full ${work.category.toLowerCase()} coming soon`);
+                  }}
+                >
+                  <span className="tab">{work.category}</span>
+                  {work.artColor && <div className={`ph art ${work.artColor}`} />}
+                  <h3>{work.title}</h3>
+                  <p>{work.excerpt}</p>
+                  <p className="hand">by {work.author}</p>
+                </a>
+              ))}
+            </div>
+          </section>
+        </main>
+      )}
 
       {/* FOOTER */}
       <footer className="chronicle-footer">
@@ -793,10 +1000,18 @@ export default function App() {
           <p className="bye">{siteData.meta.footerBye}</p>
           <p className="sign">{siteData.meta.footerSign}</p>
           <nav>
-            <a href="#people">People</a>
-            <a href="#photos">Stories</a>
-            <a href="#creative">Creative</a>
-            <a href="#top">Top</a>
+            <a href="#people" onClick={openPeoplePage}>
+              People
+            </a>
+            <a href="#photos" onClick={(e) => goHomeSection(e, 'photos')}>
+              Stories
+            </a>
+            <a href="#creative" onClick={(e) => goHomeSection(e, 'creative')}>
+              Creative
+            </a>
+            <a href="#top" onClick={(e) => goHomeSection(e, null)}>
+              Top
+            </a>
           </nav>
           <p className="fine">{siteData.meta.finePrint}</p>
         </div>
