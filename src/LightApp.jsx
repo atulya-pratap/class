@@ -19,7 +19,7 @@ const siteData = {
     heroLine2: 'worth',
     heroAccent: 'remembering.',
     lede: 'A magazine of the people, places, and quiet spaces between the bells that made our school days ours.',
-    coverImage: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop',
+    coverImage: 'https://imgh.in/host/tgk9hx',
     stickerLine1: 'Batch of',
     stickerLine2: '2025–26',
     coverCaptionPrefix: 'JNV Varanasi, one last time.',
