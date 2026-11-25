@@ -6,134 +6,144 @@ const supabaseUrl = 'https://pzplzdgdlnjfwbklxbfd.supabase.co';
 const supabaseAnonKey = 'sb_publishable_N3pli21Nl9PtLXeFkiuizg_W5Aw5MpM';
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+const ACCENT = '#B8381D';
+const CARD_TINTS = ['#E3D6BC', '#D5DCE3', '#EBCFC0', '#D9E0CC'];
+const CREATIVE_TINTS = ['#EBCFC0', '#D5DCE3', '#D9E0CC'];
+
 const siteData = {
   meta: {
     brand: 'The Chronicle',
-    subBrand: 'The Farewell Issue · JNV Varanasi',
-    issueLeft: 'EDITION 2025–26',
-    issueRight: 'JNV VARANASI · ANNUAL ARCHIVE',
-    kicker: 'JNV Varanasi · Class XII & Campus',
-    heroTitlePre: 'A year ',
-    heroTitleItalic: 'worth',
-    heroTitlePost: ' remembering.',
+    subBrand: 'The Farewell Issue',
+    eyebrow: 'JNV Varanasi · 2025–26',
+    heroLine1: 'A year',
+    heroLine2: 'worth',
+    heroAccent: 'remembering.',
     lede: 'A magazine of the people, places, and quiet spaces between the bells that made our school days ours.',
     coverImage: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop',
-    coverCaption: 'Fig. 01 — The academic courtyard before the morning assembly bell.',
-    footerBye: 'The year ends.',
-    footerSign: "The memories don't.",
-    finePrint: 'Made with love by JNV Varanasi · Edition 2025–26.',
+    stickerLine1: 'Batch of',
+    stickerLine2: '2025–26',
+    coverCaptionPrefix: 'JNV Varanasi, one last time.',
+    coverCaptionTag: 'Edition 2025–26',
+    footerHeadline1: 'Until we',
+    footerHeadline2: 'meet again.',
+    footerBody: 'Made with love, late nights and a lot of memories by the students of JNV Varanasi.',
+    copyright: '© 2025–26 The Chronicle · JNV Varanasi',
   },
-  intro: {
-    pullQuote: '“Some years don’t just pass—they stay with you long after the last bell.”',
-    pullCaption: 'Editorial Note · Page 01',
+  note: {
+    label: 'A note from us',
+    titlePre: 'Before we all ',
+    titleEm: 'scatter.',
     paragraphs: [
       "This wasn't just another academic year. It was mornings that started too early, classrooms that got too loud, games that lasted longer than planned, and a hundred small moments nobody thought they'd remember.",
-      'Twelve years of tiffin boxes, borrowed notebooks, and corridor laughter are turning into memories, and we didn’t want them to fade into a group chat that slowly goes quiet.',
-      'So we made this: a small magazine of us. Our faces, our stories, our campus, and everything we created between the bells.',
+      'Twelve years of tiffin boxes, borrowed notebooks and corridor laughter are turning into memories, and we didn’t want them to fade into a group chat that slowly goes quiet.',
+      'So we made this: a small magazine of us. Our faces, our campus, and everything we created between the bells.',
     ],
-    signOff: 'JNV Varanasi, with love',
+    signOff: 'With love, JNV Varanasi',
+    signSub: 'Edition 2025–26, on behalf of everyone',
   },
-  timeline: [
-    { num: '01', month: 'July', event: 'New Session Begins', desc: 'The campus wakes up from its summer slumber.' },
-    { num: '02', month: 'August', event: 'Independence Day', desc: 'March pasts, tricolours, and the first taste of autumn.' },
-    { num: '03', month: 'October', event: 'Cluster Meet', desc: 'Three days of fierce competition and new friendships.' },
-    { num: '04', month: 'December', event: 'Alumni Meet', desc: 'Old faces returning to familiar corridors.' },
-    { num: '05', month: 'February', event: 'Farewell', desc: 'Saying goodbye to the seniors. The hardest month.' },
-  ],
   peopleFallback: [
-    { id: 1, name: 'Aarav Sharma', role: 'School Captain', roll_no: 1, quote: 'Lead by example.', image_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop' },
-    { id: 2, name: 'Dr. K. Singh', role: 'Principal', roll_no: 2, quote: 'Excellence is a habit.', image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop' },
-    { id: 3, name: 'Neha Verma', role: 'Sports Secretary', roll_no: 3, quote: 'Leave it on the field.', image_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop' },
-    { id: 4, name: 'Vikram R.', role: 'Cultural Sec', roll_no: 4, quote: 'Art speaks.', image_url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop' },
+    { id: 1, name: 'Aarav Sharma', role: 'School Captain', quote: 'Lead by example.', image_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop' },
+    { id: 2, name: 'Dr. K. Singh', role: 'Principal', quote: 'Excellence is a habit.', image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop' },
+    { id: 3, name: 'Neha Verma', role: 'Sports Secretary', quote: 'Leave it on the field.', image_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop' },
+    { id: 4, name: 'Vikram R.', role: 'Cultural Sec', quote: 'Art speaks.', image_url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop' },
   ],
-  stories: [
+  photos: [
     {
       id: 1,
-      title: 'The Quiet Before the Bell',
-      category: 'Campus Life',
+      cap: 'The quiet before the bell',
+      ratio: '4/5',
+      bg: '#E3D6BC',
       author: 'Ananya S., Class XI',
-      readTime: '3 min read',
-      excerpt: 'At 5:30 AM, before the PT whistle blows, the campus belongs to the fog and the early risers.',
-      fullText: [
-        'At 5:30 AM, before the PT whistle echoes across the hostel quadrangle, JNV Varanasi belongs entirely to the morning mist and the earliest risers.',
-        'The corridors are still, save for the clink of steel buckets and hurried footsteps toward the ground. For twenty quiet minutes, the campus feels suspended between night and the rush of classes, assemblies, and evening games.',
-        'Those are the moments nobody writes down in the school calendar, yet they are the ones that stay clearest years after graduation.',
-      ],
+      category: 'Campus Life',
       image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop',
-      featured: true,
+      story: 'At 5:30 AM, before the PT whistle blows, the campus belongs to the fog and the early risers.',
     },
     {
       id: 2,
-      title: 'Mess Duty Memoirs',
-      category: 'Hostel Stories',
-      author: 'Rahul M., Class XII',
-      readTime: '2 min read',
-      excerpt: 'Serving hundreds of students teaches you more about management than any textbook ever could.',
-      fullText: [
-        'Serving five hundred hungry classmates in under thirty minutes teaches you more about logistics, patience, and teamwork than any textbook ever could.',
-        'From counting plates to negotiating the last serving of Sunday special, mess duty turned reluctant volunteers into a tight-knit crew.',
-      ],
-      image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1974&auto=format&fit=crop',
-      featured: false,
+      cap: 'Beyond the whiteboard',
+      ratio: '1/1',
+      bg: '#D5DCE3',
+      author: 'Priya V., Class X',
+      category: 'Academics',
+      image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop',
+      story: 'When the syllabus ends, the real learning begins. A look at our late-night study circles.',
     },
     {
       id: 3,
-      title: 'Beyond the Whiteboard',
-      category: 'Academics',
-      author: 'Priya V., Class X',
-      readTime: '2 min read',
-      excerpt: 'When the syllabus ends, the real learning begins. A look at our late-night study circles.',
-      fullText: [
-        'When evening prep ends and the textbooks close, the real conversations begin on hostel verandas and classroom steps.',
-        'Solved past papers, shared notes, and half-whispered debates before lights-out made exam season feel like a collective effort rather than a solo race.',
-      ],
-      image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop',
-      featured: false,
+      cap: 'Mess duty memoirs',
+      ratio: '3/4',
+      bg: '#EBCFC0',
+      author: 'Rahul M., Class XII',
+      category: 'Hostel Stories',
+      image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1974&auto=format&fit=crop',
+      story: 'Serving hundreds of students teaches you more about management than any textbook ever could.',
+    },
+    {
+      id: 4,
+      cap: 'Morning assembly',
+      ratio: '1/1',
+      bg: '#D9E0CC',
+      author: 'Campus Archive',
+      category: 'Daily Rituals',
+      image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop',
+      story: 'Rows of crisp uniforms, morning prayers, and announcements echoing across the quadrangle.',
+    },
+    {
+      id: 5,
+      cap: 'Campus corridor',
+      ratio: '3/4',
+      bg: '#E3D6BC',
+      author: 'Campus Archive',
+      category: 'Spaces',
+      image: 'https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=2086&auto=format&fit=crop',
+      story: 'Where between-period conversations turned into lifelong friendships.',
+    },
+    {
+      id: 6,
+      cap: 'Cluster & sports meet',
+      ratio: '4/5',
+      bg: '#D5DCE3',
+      author: 'Sports Committee',
+      category: 'Athletics',
+      image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2070&auto=format&fit=crop',
+      story: 'Three days of fierce competition, house flags, and cheering until our voices gave out.',
     },
   ],
-  creativeWorks: [
+  works: [
     {
-      category: 'Poetry',
+      tag: 'Poetry',
       title: 'The Last Bell',
       excerpt: '“The bell still rings inside my head, long after the corridors have emptied.”',
       fullText: 'The bell still rings inside my head,\nLong after the corridors have emptied.\nChalk dust settles on familiar desks,\nWhile our names remain carved in quiet corners.',
       author: 'JNV Student',
+      bg: '#EBCFC0',
     },
     {
-      category: 'Short Story',
+      tag: 'Short Story',
       title: 'The Missing Spoon',
       excerpt: '“In a hostel of five hundred residents, every steel spoon has a secret life of its own.”',
       fullText: 'In a hostel of five hundred residents, no steel spoon truly belongs to one person. It travels from breakfast poha to midnight Maggi, carrying stories across every dormitory.',
       author: 'JNV Student',
+      bg: '#D5DCE3',
     },
     {
-      category: 'Illustration',
+      tag: 'Sketch',
       title: 'Courtyard at Dusk',
       excerpt: 'Pencil and watercolour, sketched between evening games and night prep.',
       fullText: 'Drawn on the back page of a physics notebook just as the floodlights flickered on over the basketball court.',
       author: 'JNV Student',
+      bg: '#D9E0CC',
     },
     {
-      category: 'Essay',
+      tag: 'Essay',
       title: 'On Sharing a Room with Fifty People',
       excerpt: '“You can live with five hundred people and somehow still lose your own toothpaste.”',
       fullText: 'Living in a Navodaya dormitory teaches you an unspoken code: a phone charger belongs to the floor, alarms wake everyone except their owner, and silence is a rare group achievement.',
       author: 'JNV Student',
-    },
-  ],
-  voices: [
-    {
-      quote: 'JNV gave me friendships I never expected. It gave me a second family.',
-      author: 'Student, Class XII',
-    },
-    {
-      quote: 'You can live with five hundred people and somehow still lose your own toothpaste.',
-      author: 'Hostel Resident',
+      bg: '#EBCFC0',
     },
   ],
 };
-
-const avatarShades = ['#2B3A5E', '#6E3B3B', '#2F5246', '#4E3D69', '#78512A', '#265361'];
 
 const getPhotoUrl = (person) => {
   const url =
@@ -175,61 +185,195 @@ const sortStudents = (list) => {
   });
 };
 
-function PortraitCard({ person, index, onSelect }) {
+function ArchPersonCard({ person, index, onSelect }) {
   const [imgFailed, setImgFailed] = useState(false);
   const photoUrl = !imgFailed ? getPhotoUrl(person) : null;
   const roll = getRollNumber(person);
-  const bgShade = avatarShades[index % avatarShades.length];
+  const bg = CARD_TINTS[index % CARD_TINTS.length];
 
-  const baseRole = person.role || (person.class ? `Class ${person.class}` : '');
-  const subtitle = [baseRole, roll ? `Roll ${roll}` : ''].filter(Boolean).join(' · ') || 'JNV Varanasi';
-  const tagline = person.quote || person.favourite_quote || 'Batch of 2025–26';
+  const kind = person.role || (person.class ? `Class ${person.class}` : 'Student');
+  const quote = person.quote || person.favourite_quote || 'Batch of 2025–26';
+  const line = [roll ? `Roll ${roll}` : '', quote].filter(Boolean).join(' · ');
 
   return (
     <a
-      className="person-card"
       href="#people"
+      style={{ display: 'block' }}
       onClick={(e) => {
         e.preventDefault();
         onSelect({
-          kicker: subtitle,
+          tag: kind,
           title: person.name,
-          author: `Batch of 2025–26${roll ? ` · Roll ${roll}` : ''}`,
-          paragraphs: [`“${tagline}”`],
+          sub: roll ? `Roll ${roll} · JNV Varanasi` : 'JNV Varanasi · Batch of 2025–26',
+          body: `“${quote}”`,
           image: photoUrl,
+          bg,
         });
       }}
     >
-      <div className="portrait-box" style={{ backgroundColor: bgShade }}>
+      <div
+        style={{
+          aspectRatio: '3/4',
+          borderRadius: '999px 999px 16px 16px',
+          display: 'flex',
+          alignItems: photoUrl ? 'stretch' : 'flex-end',
+          justifyContent: 'center',
+          paddingBottom: photoUrl ? 0 : '18px',
+          color: '#16213A',
+          background: bg,
+          overflow: 'hidden',
+        }}
+      >
         {photoUrl ? (
           <img
             src={photoUrl}
             alt={person.name}
             loading="lazy"
             onError={() => setImgFailed(true)}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />
         ) : (
-          <span>{person.name ? person.name.charAt(0).toUpperCase() : '?'}</span>
+          <svg
+            width="44"
+            height="44"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8.5" r="3.5" />
+            <path d="M5 20c.8-4 3.6-6 7-6s6.2 2 7 6" />
+          </svg>
         )}
       </div>
-      <div className="person-meta">
-        <small>{subtitle}</small>
-        <h3>{person.name}</h3>
-        <p>“{tagline}”</p>
+      <div
+        style={{
+          marginTop: '14px',
+          fontSize: '11px',
+          letterSpacing: '.16em',
+          textTransform: 'uppercase',
+          fontWeight: 600,
+          color: ACCENT,
+        }}
+      >
+        {kind}
       </div>
+      <div
+        style={{
+          marginTop: '2px',
+          fontFamily: "'Fraunces',Georgia,serif",
+          fontSize: '21px',
+          lineHeight: 1.2,
+        }}
+      >
+        {person.name}
+      </div>
+      <div style={{ marginTop: '2px', fontSize: '14px', color: '#4B5468' }}>{line}</div>
     </a>
+  );
+}
+
+function PhotoTile({ item, onSelect }) {
+  const [imgFailed, setImgFailed] = useState(false);
+
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() =>
+        onSelect({
+          tag: item.category,
+          title: item.cap,
+          sub: `By ${item.author}`,
+          body: item.story,
+          image: !imgFailed ? item.image : null,
+          bg: item.bg,
+        })
+      }
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onSelect({
+            tag: item.category,
+            title: item.cap,
+            sub: `By ${item.author}`,
+            body: item.story,
+            image: !imgFailed ? item.image : null,
+            bg: item.bg,
+          });
+        }
+      }}
+      style={{
+        breakInside: 'avoid',
+        marginBottom: '12px',
+        position: 'relative',
+        borderRadius: '14px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#16213A',
+        aspectRatio: item.ratio,
+        background: item.bg,
+        overflow: 'hidden',
+        cursor: 'pointer',
+      }}
+    >
+      {item.image && !imgFailed ? (
+        <img
+          src={item.image}
+          alt={item.cap}
+          loading="lazy"
+          onError={() => setImgFailed(true)}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+      ) : (
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M4 8h3l2-2.5h6L17 8h3v11H4z" />
+          <circle cx="12" cy="13" r="3.5" />
+        </svg>
+      )}
+      <span
+        style={{
+          position: 'absolute',
+          left: '8px',
+          bottom: '8px',
+          background: '#F5EFE3',
+          color: '#16213A',
+          fontSize: '12px',
+          fontWeight: 600,
+          padding: '5px 11px',
+          borderRadius: '999px',
+        }}
+      >
+        {item.cap}
+      </span>
+    </div>
   );
 }
 
 export default function LightApp() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [coverFailed, setCoverFailed] = useState(false);
   const [peopleData, setPeopleData] = useState([]);
   const [loadingPeople, setLoadingPeople] = useState(true);
   const [activePage, setActivePage] = useState(() =>
     typeof window !== 'undefined' && window.location.hash === '#people' ? 'people' : 'home'
   );
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeModal, setActiveModal] = useState(null);
+  const [modalItem, setModalItem] = useState(null);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -309,797 +453,123 @@ export default function LightApp() {
     }
   };
 
-  const leadStory = siteData.stories[0];
-  const secondaryStories = siteData.stories.slice(1);
-
   return (
-    <div id="top" className="editorial-root">
+    <div
+      style={{
+        background: '#F5EFE3',
+        color: '#16213A',
+        fontFamily: "'DM Sans',system-ui,sans-serif",
+        fontSize: '16px',
+        lineHeight: 1.6,
+        minHeight: '100vh',
+      }}
+    >
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..600&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&display=swap');
-
-        * {
-          box-sizing: border-box;
-        }
-
-        html {
-          scroll-behavior: smooth;
-        }
-
-        body {
-          margin: 0;
-          background: #F5EFE3;
-          color: #16213A;
-          font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
-          font-size: 16px;
-          line-height: 1.6;
-          -webkit-font-smoothing: antialiased;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        a:focus-visible,
-        button:focus-visible,
-        input:focus-visible {
-          outline: 2px solid #16213A;
-          outline-offset: 3px;
-        }
-
-        .editorial-root {
-          min-height: 100vh;
-          background: #F5EFE3;
-          color: #16213A;
-        }
-
-        .wrap {
-          max-width: 1120px;
-          margin: 0 auto;
-          padding: 0 20px;
-        }
-
-        /* Masthead (exact claudeWhite1.html structure) */
-        .masthead {
-          max-width: 1120px;
-          margin: 0 auto;
-          padding: 18px 20px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-        }
-
-        .brand-link {
-          display: flex;
-          flex-direction: column;
-          line-height: 1.1;
-        }
-
-        .brand-title {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 24px;
-          font-weight: 600;
-          letter-spacing: -0.01em;
-        }
-
-        .brand-sub {
-          font-size: 10px;
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
-          color: #4B5468;
-          font-weight: 600;
-          margin-top: 3px;
-        }
-
-        .masthead-right {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .desktop-links {
-          display: none;
-          align-items: center;
-          gap: 24px;
-          margin-right: 10px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #4B5468;
-        }
-
-        .desktop-links a:hover,
-        .desktop-links a.active {
-          color: #16213A;
-          font-weight: 600;
-        }
-
-        .dark-pill {
-          height: 44px;
-          padding: 0 16px;
-          border-radius: 999px;
-          border: 1.5px solid #16213A;
-          background: transparent;
-          color: #16213A;
-          font-size: 13px;
-          font-weight: 600;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          transition: background 0.15s, color 0.15s;
-        }
-
-        .dark-pill:hover {
-          background: #16213A;
-          color: #F5EFE3;
-        }
-
-        .menu-circle {
-          width: 48px;
-          height: 48px;
-          border-radius: 999px;
-          border: 1.5px solid #16213A;
-          background: transparent;
-          color: #16213A;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          padding: 0;
-          transition: background 0.15s, color 0.15s;
-        }
-
-        .menu-circle:hover {
-          background: #16213A;
-          color: #F5EFE3;
-        }
-
-        /* Full-width Dark Navy Drawer */
-        .nav-drawer {
-          background: #16213A;
-          color: #F5EFE3;
-          padding: 12px 20px 28px;
-        }
-
-        .nav-drawer-inner {
-          max-width: 1120px;
-          margin: 0 auto;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .nav-drawer-inner a {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 30px;
-          padding: 14px 0;
-          border-bottom: 1px solid rgba(245, 239, 227, 0.18);
-        }
-
-        /* Dateline Bar */
-        .dateline {
-          border-top: 1px solid #16213A;
-          border-bottom: 1px solid rgba(22, 33, 58, 0.2);
-          padding: 10px 0;
-          font-size: 11px;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: #4B5468;
-          font-weight: 600;
-        }
-
-        .dateline-inner {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 12px;
-          flex-wrap: wrap;
-        }
-
-        /* Buttons (claudeWhite1.html) */
-        .btn {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 48px;
-          padding: 0 24px;
-          border: 1.5px solid #16213A;
-          border-radius: 999px;
-          background: transparent;
-          color: #16213A;
-          font-size: 15px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: background 0.15s, color 0.15s;
-        }
-
-        .btn:hover {
-          background: #16213A;
-          color: #F5EFE3;
-        }
-
-        .btn-fill {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 48px;
-          padding: 0 24px;
-          border: 1.5px solid #16213A;
-          border-radius: 999px;
-          background: #16213A;
-          color: #F5EFE3;
-          font-size: 15px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: background 0.15s;
-        }
-
-        .btn-fill:hover {
-          background: #2B3A5E;
-          border-color: #2B3A5E;
-        }
-
-        /* Hero */
-        .hero-section {
-          padding: 36px 0 64px;
-          border-bottom: 1px solid rgba(22, 33, 58, 0.16);
-        }
-
-        .kicker {
-          font-size: 11px;
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
-          color: #4B5468;
-          font-weight: 600;
-          margin-bottom: 14px;
-        }
-
-        .hero-title {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 48px;
-          font-weight: 600;
-          line-height: 0.96;
-          letter-spacing: -0.025em;
-          margin: 0 0 22px;
-          max-width: 13ch;
-        }
-
-        .hero-title em {
-          font-style: italic;
-          font-weight: 400;
-        }
-
-        .hero-lede {
-          font-size: 18px;
-          line-height: 1.6;
-          color: #4B5468;
-          max-width: 48ch;
-          margin: 0 0 28px;
-        }
-
-        .hero-ctas {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 12px;
-          margin-bottom: 40px;
-        }
-
-        .cover-frame {
-          border-radius: 6px;
-          overflow: hidden;
-          border: 1px solid rgba(22, 33, 58, 0.16);
-          background: #EAE2D3;
-        }
-
-        .cover-frame img {
-          width: 100%;
-          aspect-ratio: 16 / 9;
-          object-fit: cover;
-          display: block;
-        }
-
-        .cover-caption {
-          padding: 12px 16px;
-          font-family: 'Fraunces', Georgia, serif;
-          font-style: italic;
-          font-size: 14px;
-          color: #4B5468;
-          background: #FAF9F5;
-          border-top: 1px solid rgba(22, 33, 58, 0.12);
-        }
-
-        /* Sections */
-        .section-block {
-          padding: 64px 0;
-          border-bottom: 1px solid rgba(22, 33, 58, 0.16);
-        }
-
-        .sec-title {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 36px;
-          font-weight: 600;
-          line-height: 1.06;
-          letter-spacing: -0.02em;
-          margin: 0 0 10px;
-        }
-
-        .sec-sub {
-          color: #4B5468;
-          margin: 0 0 32px;
-          font-size: 16px;
-          max-width: 46ch;
-        }
-
-        /* Editorial Note & Dropcap (exact claudeWhite1.html rule) */
-        .note-layout {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 32px;
-        }
-
-        .pull-box {
-          padding-top: 18px;
-          border-top: 2px solid #16213A;
-        }
-
-        .pull-quote {
-          font-family: 'Fraunces', Georgia, serif;
-          font-style: italic;
-          font-size: 22px;
-          line-height: 1.35;
-          margin: 0 0 12px;
-        }
-
-        .note-prose {
-          font-size: 17px;
-          line-height: 1.75;
-          max-width: 62ch;
-        }
-
-        .note-prose p {
-          margin: 0 0 20px;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=DM+Sans:wght@400;500;600&display=swap');
+        body { margin: 0; background: #F5EFE3; }
+        * { box-sizing: border-box; }
+        a { color: inherit; text-decoration: none; }
+        a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid #16213A; outline-offset: 3px; }
+        .btn:hover { background: #16213A !important; color: #F5EFE3 !important; }
+        .btn-fill:hover { background: #2B3A5E !important; }
         .dropcap::first-letter {
           font-family: 'Fraunces', Georgia, serif;
           font-size: 68px;
-          line-height: 0.85;
+          line-height: .85;
           float: left;
           padding: 6px 10px 0 0;
           color: #16213A;
         }
-
-        .note-sign {
-          font-family: 'Fraunces', Georgia, serif;
-          font-style: italic;
-          font-size: 20px;
-          margin-top: 10px;
-        }
-
-        /* Year Index (Chronology) */
-        .index-list {
-          border-top: 1px solid #16213A;
-        }
-
-        .index-row {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 4px;
-          padding: 18px 0;
-          border-bottom: 1px solid rgba(22, 33, 58, 0.16);
-        }
-
-        .index-meta {
-          font-size: 11px;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: #4B5468;
-          font-weight: 600;
-        }
-
-        .index-title {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 22px;
-          font-weight: 600;
-          margin: 0;
-        }
-
-        .index-desc {
-          margin: 0;
-          color: #4B5468;
-          font-size: 15px;
-        }
-
-        /* People Grid */
-        .people-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 28px 16px;
-        }
-
-        .person-card {
-          display: block;
-        }
-
-        .portrait-box {
-          aspect-ratio: 4 / 5;
-          border-radius: 6px;
-          overflow: hidden;
-          display: grid;
-          place-items: center;
-          margin-bottom: 12px;
-          border: 1px solid rgba(22, 33, 58, 0.14);
-        }
-
-        .portrait-box img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.35s ease;
-        }
-
-        .person-card:hover .portrait-box img {
-          transform: scale(1.03);
-        }
-
-        .portrait-box span {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 46px;
-          font-weight: 600;
-          color: #F5EFE3;
-        }
-
-        .person-meta small {
-          display: block;
-          font-size: 11px;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          color: #4B5468;
-          font-weight: 600;
-        }
-
-        .person-meta h3 {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 20px;
-          font-weight: 600;
-          margin: 4px 0;
-          line-height: 1.2;
-        }
-
-        .person-meta p {
-          margin: 0;
-          font-size: 14px;
-          font-style: italic;
-          color: #4B5468;
-        }
-
-        /* Search Input on /#people */
-        .search-field {
-          width: 100%;
-          max-width: 440px;
-          height: 48px;
-          padding: 0 20px;
-          margin-bottom: 32px;
-          border-radius: 999px;
-          border: 1.5px solid #16213A;
-          background: #FAF9F5;
-          color: #16213A;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 15px;
-        }
-
-        /* Stories Feature Layout */
-        .lead-story {
-          display: grid;
-          grid-template-columns: 1fr;
-          background: #FAF9F5;
-          border: 1px solid rgba(22, 33, 58, 0.16);
-          border-radius: 6px;
-          overflow: hidden;
-          margin-bottom: 24px;
-        }
-
-        .lead-story-img img {
-          width: 100%;
-          height: 100%;
-          aspect-ratio: 16 / 10;
-          object-fit: cover;
-          display: block;
-        }
-
-        .lead-story-body {
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-
-        .lead-story-body h3 {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 28px;
-          line-height: 1.12;
-          margin: 4px 0 12px;
-        }
-
-        .lead-story-body p {
-          margin: 0 0 18px;
-          color: #4B5468;
-        }
-
-        .sub-stories-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 24px;
-        }
-
-        .story-card {
-          display: block;
-          background: #FAF9F5;
-          border: 1px solid rgba(22, 33, 58, 0.16);
-          border-radius: 6px;
-          overflow: hidden;
-        }
-
-        .story-card img {
-          width: 100%;
-          aspect-ratio: 16 / 10;
-          object-fit: cover;
-          display: block;
-        }
-
-        .story-card-body {
-          padding: 20px;
-        }
-
-        .story-card-body h3 {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 22px;
-          line-height: 1.2;
-          margin: 4px 0 8px;
-        }
-
-        .story-card-body p {
-          margin: 0 0 14px;
-          color: #4B5468;
-          font-size: 15px;
-        }
-
-        .byline {
-          font-size: 12px;
-          font-weight: 600;
-          color: #16213A;
-        }
-
-        /* Creative Anthology */
-        .creative-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 20px;
-        }
-
-        .creative-card {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          background: #FAF9F5;
-          border: 1px solid rgba(22, 33, 58, 0.16);
-          border-radius: 6px;
-          padding: 24px;
-          transition: border-color 0.15s;
-        }
-
-        .creative-card:hover {
-          border-color: #16213A;
-        }
-
-        .creative-card h3 {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 24px;
-          margin: 4px 0 10px;
-          line-height: 1.2;
-        }
-
-        .creative-card p {
-          font-family: 'Fraunces', Georgia, serif;
-          font-style: italic;
-          color: #4B5468;
-          margin: 0 0 18px;
-          font-size: 16px;
-        }
-
-        /* Voices / Overheard */
-        .voices-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 28px;
-        }
-
-        .voice-item {
-          padding: 24px;
-          border-left: 3px solid #16213A;
-          background: #FAF9F5;
-        }
-
-        .voice-item blockquote {
-          margin: 0 0 10px;
-          font-family: 'Fraunces', Georgia, serif;
-          font-style: italic;
-          font-size: 21px;
-          line-height: 1.35;
-        }
-
-        .voice-item cite {
-          font-style: normal;
-          font-size: 12px;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-          color: #4B5468;
-          font-weight: 600;
-        }
-
-        /* Footer */
-        .ed-footer {
-          background: #16213A;
-          color: #F5EFE3;
-          padding: 64px 0 48px;
-        }
-
-        .ed-footer h2 {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 38px;
-          font-weight: 600;
-          margin: 0 0 6px;
-          line-height: 1.05;
-        }
-
-        .ed-footer-sign {
-          font-family: 'Fraunces', Georgia, serif;
-          font-style: italic;
-          font-size: 22px;
-          color: rgba(245, 239, 227, 0.78);
-          margin: 0 0 32px;
-        }
-
-        .ed-footer-nav {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 22px;
-          padding-bottom: 24px;
-          margin-bottom: 24px;
-          border-bottom: 1px solid rgba(245, 239, 227, 0.18);
-          font-size: 14px;
-          font-weight: 600;
-        }
-
-        .ed-footer-fine {
-          margin: 0;
-          font-size: 13px;
-          color: rgba(245, 239, 227, 0.65);
-        }
-
-        /* Editorial Reading Modal */
-        .modal-backdrop {
-          position: fixed;
-          inset: 0;
-          z-index: 50;
-          background: rgba(22, 33, 58, 0.65);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-        }
-
-        .modal-sheet {
-          width: 100%;
-          max-width: 600px;
-          max-height: 85vh;
-          overflow-y: auto;
-          background: #F5EFE3;
-          color: #16213A;
-          border: 1.5px solid #16213A;
-          border-radius: 8px;
-          padding: 28px;
-        }
-
-        .modal-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: 16px;
-          margin-bottom: 16px;
-        }
-
-        .modal-sheet h3 {
-          font-family: 'Fraunces', Georgia, serif;
-          font-size: 28px;
-          line-height: 1.15;
-          margin: 0 0 8px;
-        }
-
-        .modal-sheet img {
-          width: 100%;
-          max-height: 280px;
-          object-fit: cover;
-          border-radius: 6px;
-          margin-bottom: 18px;
-        }
-
-        .modal-sheet p {
-          margin: 0 0 16px;
-          font-size: 16px;
-          line-height: 1.7;
-        }
-
+        .masonry-grid { column-count: 2; column-gap: 12px; }
         @media (min-width: 720px) {
-          .hero-title {
-            font-size: 92px !important;
-          }
-          .sec-title {
-            font-size: 52px !important;
-          }
-          .desktop-links {
-            display: flex;
-          }
-          .note-layout {
-            grid-template-columns: 280px 1fr;
-            gap: 56px;
-          }
-          .index-row {
-            grid-template-columns: 160px 240px 1fr;
-            align-items: baseline;
-            gap: 20px;
-          }
-          .people-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 36px 24px;
-          }
-          .lead-story {
-            grid-template-columns: 1.15fr 1fr;
-          }
-          .sub-stories-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .creative-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .voices-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
+          .hero-title { font-size: 92px !important; }
+          .sec-title { font-size: 52px !important; }
+          .masonry-grid { column-count: 3; column-gap: 16px; }
         }
       ` }} />
 
-      {/* MASTHEAD */}
-      <header className="masthead">
-        <a href="#top" className="brand-link" onClick={(e) => goHomeSection(e, null)}>
-          <span className="brand-title">{siteData.meta.brand}</span>
-          <span className="brand-sub">{siteData.meta.subBrand}</span>
+      {/* Masthead */}
+      <header
+        style={{
+          maxWidth: '1120px',
+          margin: '0 auto',
+          padding: '18px 20px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '12px',
+        }}
+      >
+        <a
+          href="#top"
+          onClick={(e) => goHomeSection(e, null)}
+          style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}
+        >
+          <span
+            style={{
+              fontFamily: "'Fraunces',Georgia,serif",
+              fontSize: '24px',
+              fontWeight: 600,
+              letterSpacing: '-.01em',
+            }}
+          >
+            {siteData.meta.brand}
+          </span>
+          <span
+            style={{
+              fontSize: '10px',
+              letterSpacing: '.22em',
+              textTransform: 'uppercase',
+              color: '#4B5468',
+              fontWeight: 600,
+              marginTop: '3px',
+            }}
+          >
+            {siteData.meta.subBrand}
+          </span>
         </a>
 
-        <div className="masthead-right">
-          <nav className="desktop-links" aria-label="Main">
-            <a href="#note" onClick={(e) => goHomeSection(e, 'note')}>Our note</a>
-            <a
-              href="#people"
-              className={activePage === 'people' ? 'active' : ''}
-              onClick={(e) =>
-                activePage === 'people' ? openPeoplePage(e) : goHomeSection(e, 'people-preview')
-              }
-            >
-              People
-            </a>
-            <a href="#photos" onClick={(e) => goHomeSection(e, 'photos')}>Stories</a>
-            <a href="#creative" onClick={(e) => goHomeSection(e, 'creative')}>Creative</a>
-          </nav>
-
-          <a href="../" className="dark-pill" aria-label="Switch to Dark Version">
-            ☾ Dark
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <a
+            href="../"
+            className="btn"
+            aria-label="Switch to dark version"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              height: '48px',
+              padding: '0 18px',
+              borderRadius: '999px',
+              border: '1.5px solid #16213A',
+              background: 'transparent',
+              color: '#16213A',
+              fontSize: '14px',
+              fontWeight: 600,
+            }}
+          >
+            <span aria-hidden="true">☾</span> Dark
           </a>
 
           <button
             type="button"
-            className="menu-circle"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             onClick={() => setMenuOpen((prev) => !prev)}
+            className="btn"
+            style={{
+              width: '48px',
+              height: '48px',
+              borderRadius: '999px',
+              border: '1.5px solid #16213A',
+              background: 'transparent',
+              color: '#16213A',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              padding: 0,
+            }}
           >
             {menuOpen ? (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -1114,319 +584,784 @@ export default function LightApp() {
         </div>
       </header>
 
-      {/* EXPANDABLE DARK NAVY MENU DRAWER */}
+      {/* Expandable Dark Navy Menu */}
       {menuOpen && (
-        <nav aria-label="Main" className="nav-drawer">
-          <div className="nav-drawer-inner">
-            <a href="#note" onClick={(e) => goHomeSection(e, 'note')}>Our note</a>
-            <a href="#people" onClick={openPeoplePage}>People</a>
-            <a href="#photos" onClick={(e) => goHomeSection(e, 'photos')}>Stories</a>
-            <a href="#creative" onClick={(e) => goHomeSection(e, 'creative')}>Creative</a>
-            <a href="../">Dark edition</a>
+        <nav aria-label="Main" style={{ background: '#16213A', color: '#F5EFE3', padding: '12px 20px 28px' }}>
+          <div style={{ maxWidth: '1120px', margin: '0 auto', display: 'flex', flexDirection: 'column' }}>
+            <a
+              href="#note"
+              onClick={(e) => goHomeSection(e, 'note')}
+              style={{
+                fontFamily: "'Fraunces',Georgia,serif",
+                fontSize: '30px',
+                padding: '14px 0',
+                borderBottom: '1px solid rgba(245,239,227,.18)',
+              }}
+            >
+              Our note
+            </a>
+            <a
+              href="#people"
+              onClick={openPeoplePage}
+              style={{
+                fontFamily: "'Fraunces',Georgia,serif",
+                fontSize: '30px',
+                padding: '14px 0',
+                borderBottom: '1px solid rgba(245,239,227,.18)',
+              }}
+            >
+              People
+            </a>
+            <a
+              href="#photos"
+              onClick={(e) => goHomeSection(e, 'photos')}
+              style={{
+                fontFamily: "'Fraunces',Georgia,serif",
+                fontSize: '30px',
+                padding: '14px 0',
+                borderBottom: '1px solid rgba(245,239,227,.18)',
+              }}
+            >
+              Photos
+            </a>
+            <a
+              href="#creative"
+              onClick={(e) => goHomeSection(e, 'creative')}
+              style={{
+                fontFamily: "'Fraunces',Georgia,serif",
+                fontSize: '30px',
+                padding: '14px 0',
+                borderBottom: '1px solid rgba(245,239,227,.18)',
+              }}
+            >
+              Creative work
+            </a>
+            <a
+              href="../"
+              style={{
+                fontFamily: "'Fraunces',Georgia,serif",
+                fontSize: '30px',
+                padding: '14px 0',
+                color: '#F2A794',
+              }}
+            >
+              Dark edition ↗
+            </a>
           </div>
         </nav>
       )}
 
-      {/* ISSUE DATELINE */}
-      <div className="dateline">
-        <div className="wrap dateline-inner">
-          <span>{siteData.meta.issueLeft}</span>
-          <span>{siteData.meta.issueRight}</span>
-        </div>
-      </div>
-
       {activePage === 'people' ? (
         /* DEDICATED /#people DIRECTORY PAGE */
-        <main className="wrap" style={{ paddingTop: '40px', paddingBottom: '80px' }}>
+        <main id="top" style={{ maxWidth: '1120px', margin: '0 auto', padding: '28px 20px 88px' }}>
           <div style={{ marginBottom: '28px' }}>
-            <a href="#top" className="btn" onClick={(e) => goHomeSection(e, null)}>
+            <a
+              href="#top"
+              className="btn"
+              onClick={(e) => goHomeSection(e, null)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                minHeight: '48px',
+                padding: '0 24px',
+                border: '1.5px solid #16213A',
+                borderRadius: '999px',
+                fontWeight: 600,
+                fontSize: '15px',
+                color: '#16213A',
+              }}
+            >
               ← Back to magazine
             </a>
           </div>
 
-          <div className="kicker">Batch Directory · {sortedPeople.length} Members</div>
-          <h2 className="sec-title">People</h2>
-          <p className="sec-sub">Sorted by uploaded photos first, then alphabetically by name.</p>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '16px' }}>
+            <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontStyle: 'italic', fontSize: '20px', color: ACCENT }}>
+              01
+            </span>
+            <span style={{ fontSize: '12px', letterSpacing: '.2em', textTransform: 'uppercase', fontWeight: 600 }}>
+              People · {sortedPeople.length} Members
+            </span>
+            <span style={{ flex: 1, height: '1px', background: 'rgba(22,33,58,.2)' }} />
+          </div>
+
+          <h1
+            className="sec-title"
+            style={{
+              margin: '0 0 12px',
+              fontFamily: "'Fraunces',Georgia,serif",
+              fontWeight: 400,
+              fontSize: '38px',
+              lineHeight: 1.1,
+              letterSpacing: '-.02em',
+            }}
+          >
+            The faces behind <em style={{ fontStyle: 'italic' }}>the memories</em>
+          </h1>
+          <p style={{ margin: '0 0 24px', color: '#4B5468', maxWidth: '36em' }}>
+            Sorted by uploaded photos first, then alphabetically by name.
+          </p>
 
           <input
             type="search"
-            className="search-field"
-            placeholder="Search by name, roll number, or class..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by name, roll number, or class..."
             aria-label="Search students"
+            style={{
+              width: '100%',
+              maxWidth: '420px',
+              height: '48px',
+              padding: '0 20px',
+              marginBottom: '32px',
+              borderRadius: '999px',
+              border: '1.5px solid #16213A',
+              background: '#FAF9F5',
+              color: '#16213A',
+              fontFamily: "'DM Sans',system-ui,sans-serif",
+              fontSize: '15px',
+            }}
           />
 
           {loadingPeople ? (
-            <p className="sec-sub">Loading batch directory...</p>
+            <p style={{ color: '#4B5468' }}>Loading batch directory...</p>
           ) : filteredAllPeople.length === 0 ? (
-            <p className="sec-sub">No matching students found for “{searchQuery}”.</p>
+            <p style={{ color: '#4B5468' }}>No matching students found for “{searchQuery}”.</p>
           ) : (
-            <div className="people-grid">
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill,minmax(165px,1fr))',
+                gap: '28px 16px',
+              }}
+            >
               {filteredAllPeople.map((person, idx) => (
-                <PortraitCard
+                <ArchPersonCard
                   key={person.id || `${person.name}-${idx}`}
                   person={person}
                   index={idx}
-                  onSelect={setActiveModal}
+                  onSelect={setModalItem}
                 />
               ))}
             </div>
           )}
         </main>
       ) : (
-        /* MAIN EDITORIAL MAGAZINE PAGE */
-        <main className="wrap">
-          {/* HERO */}
-          <section className="hero-section">
-            <div className="kicker">{siteData.meta.kicker}</div>
-            <h1 className="hero-title">
-              {siteData.meta.heroTitlePre}
-              <em>{siteData.meta.heroTitleItalic}</em>
-              {siteData.meta.heroTitlePost}
-            </h1>
-            <p className="hero-lede">{siteData.meta.lede}</p>
-            <div className="hero-ctas">
-              <a className="btn-fill" href="#people" onClick={openPeoplePage}>
-                Meet the batch
-              </a>
-              <a className="btn" href="#note" onClick={(e) => goHomeSection(e, 'note')}>
-                Read our note
-              </a>
+        /* MAIN MAGAZINE PAGE */
+        <main id="top">
+          {/* Hero */}
+          <section
+            style={{
+              maxWidth: '1120px',
+              margin: '0 auto',
+              padding: '28px 20px 72px',
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: '44px',
+            }}
+          >
+            <div style={{ flex: '1 1 340px', minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '22px' }}>
+                <span style={{ width: '32px', height: '1.5px', background: ACCENT }} />
+                <span
+                  style={{
+                    fontSize: '12px',
+                    letterSpacing: '.2em',
+                    textTransform: 'uppercase',
+                    fontWeight: 600,
+                    color: ACCENT,
+                  }}
+                >
+                  {siteData.meta.eyebrow}
+                </span>
+              </div>
+
+              <h1
+                className="hero-title"
+                style={{
+                  margin: 0,
+                  fontFamily: "'Fraunces',Georgia,serif",
+                  fontWeight: 400,
+                  fontSize: '56px',
+                  lineHeight: 1.02,
+                  letterSpacing: '-.025em',
+                }}
+              >
+                {siteData.meta.heroLine1}
+                <br />
+                {siteData.meta.heroLine2}
+                <br />
+                <em style={{ fontStyle: 'italic', color: ACCENT }}>{siteData.meta.heroAccent}</em>
+              </h1>
+
+              <p
+                style={{
+                  margin: '26px 0 0',
+                  fontSize: '18px',
+                  lineHeight: 1.6,
+                  color: '#4B5468',
+                  maxWidth: '30em',
+                }}
+              >
+                {siteData.meta.lede}
+              </p>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginTop: '32px' }}>
+                <a
+                  className="btn-fill"
+                  href="#people"
+                  onClick={openPeoplePage}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    minHeight: '52px',
+                    padding: '0 28px',
+                    borderRadius: '999px',
+                    background: '#16213A',
+                    color: '#F5EFE3',
+                    fontWeight: 600,
+                    fontSize: '15px',
+                  }}
+                >
+                  Meet the batch
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+
+                <a
+                  className="btn"
+                  href="#note"
+                  onClick={(e) => goHomeSection(e, 'note')}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minHeight: '52px',
+                    padding: '0 28px',
+                    border: '1.5px solid #16213A',
+                    borderRadius: '999px',
+                    fontWeight: 600,
+                    fontSize: '15px',
+                    color: '#16213A',
+                  }}
+                >
+                  Read our note
+                </a>
+              </div>
             </div>
 
-            <figure className="cover-frame" style={{ margin: 0 }}>
-              <img src={siteData.meta.coverImage} alt="JNV Varanasi Campus" />
-              <figcaption className="cover-caption">{siteData.meta.coverCaption}</figcaption>
+            <figure style={{ flex: '1 1 320px', minWidth: 0, maxWidth: '460px', margin: 0, position: 'relative' }}>
+              <div
+                style={{
+                  aspectRatio: '4/5',
+                  borderRadius: '999px 999px 24px 24px',
+                  background: '#E3D6BC',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  color: '#16213A',
+                  overflow: 'hidden',
+                }}
+              >
+                {siteData.meta.coverImage && !coverFailed ? (
+                  <img
+                    src={siteData.meta.coverImage}
+                    alt="JNV Varanasi Campus"
+                    onError={() => setCoverFailed(true)}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                ) : (
+                  <>
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M4 8h3l2-2.5h6L17 8h3v11H4z" />
+                      <circle cx="12" cy="13" r="3.5" />
+                    </svg>
+                    <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase' }}>
+                      Add campus photo
+                    </span>
+                  </>
+                )}
+              </div>
+
+              <div
+                aria-hidden="true"
+                style={{
+                  position: 'absolute',
+                  left: '-6px',
+                  bottom: '64px',
+                  width: '100px',
+                  height: '100px',
+                  borderRadius: '999px',
+                  background: ACCENT,
+                  color: '#FFFFFF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  fontFamily: "'Fraunces',Georgia,serif",
+                  fontStyle: 'italic',
+                  fontSize: '16px',
+                  lineHeight: 1.15,
+                  transform: 'rotate(-10deg)',
+                }}
+              >
+                <span>
+                  {siteData.meta.stickerLine1}
+                  <br />
+                  {siteData.meta.stickerLine2}
+                </span>
+              </div>
+
+              <figcaption style={{ marginTop: '14px', fontSize: '13px', color: '#4B5468' }}>
+                {siteData.meta.coverCaptionPrefix}{' '}
+                <span style={{ color: '#16213A', fontWeight: 600 }}>{siteData.meta.coverCaptionTag}</span>
+              </figcaption>
             </figure>
           </section>
 
-          {/* 01 / OUR NOTE WITH DROPCAP */}
-          <section id="note" className="section-block">
-            <div className="kicker">01 / Introduction</div>
-            <h2 className="sec-title" style={{ marginBottom: '32px' }}>A note from us</h2>
+          {/* Note */}
+          <section id="note" style={{ background: '#EDE4D1', padding: '72px 20px' }}>
+            <div style={{ maxWidth: '680px', margin: '0 auto' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '22px' }}>
+                <span style={{ fontSize: '12px', letterSpacing: '.2em', textTransform: 'uppercase', fontWeight: 600, color: '#16213A' }}>
+                  {siteData.note.label}
+                </span>
+                <span style={{ flex: 1, height: '1px', background: 'rgba(22,33,58,.25)' }} />
+              </div>
 
-            <div className="note-layout">
-              <aside className="pull-box">
-                <p className="pull-quote">{siteData.intro.pullQuote}</p>
-                <div className="kicker" style={{ marginBottom: 0 }}>{siteData.intro.pullCaption}</div>
-              </aside>
+              <h2
+                className="sec-title"
+                style={{
+                  margin: '0 0 28px',
+                  fontFamily: "'Fraunces',Georgia,serif",
+                  fontWeight: 400,
+                  fontSize: '38px',
+                  lineHeight: 1.1,
+                  letterSpacing: '-.02em',
+                }}
+              >
+                {siteData.note.titlePre}
+                <em style={{ fontStyle: 'italic' }}>{siteData.note.titleEm}</em>
+              </h2>
 
-              <div className="note-prose">
-                {siteData.intro.paragraphs.map((para, idx) => (
-                  <p key={idx} className={idx === 0 ? 'dropcap' : ''}>
-                    {para}
-                  </p>
-                ))}
-                <p className="note-sign">— {siteData.intro.signOff}</p>
+              {siteData.note.paragraphs.map((text, idx) => (
+                <p
+                  key={idx}
+                  className={idx === 0 ? 'dropcap' : undefined}
+                  style={{
+                    margin: idx === siteData.note.paragraphs.length - 1 ? '0 0 32px' : '0 0 20px',
+                    fontSize: '18px',
+                    lineHeight: 1.75,
+                  }}
+                >
+                  {text}
+                </p>
+              ))}
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontStyle: 'italic', fontSize: '26px', color: ACCENT }}>
+                  {siteData.note.signOff}
+                </span>
+                <span style={{ fontSize: '13px', color: '#4B5468' }}>{siteData.note.signSub}</span>
               </div>
             </div>
           </section>
 
-          {/* 02 / THE YEAR IN CHAPTERS */}
-          <section className="section-block">
-            <div className="kicker">02 / Chronology</div>
-            <h2 className="sec-title">The academic year</h2>
-            <p className="sec-sub">Five milestones that shaped the calendar from July to February.</p>
-
-            <div className="index-list">
-              {siteData.timeline.map((item) => (
-                <div key={item.num} className="index-row">
-                  <span className="index-meta">{item.num} · {item.month}</span>
-                  <h3 className="index-title">{item.event}</h3>
-                  <p className="index-desc">{item.desc}</p>
-                </div>
-              ))}
+          {/* People */}
+          <section id="people-preview" style={{ maxWidth: '1120px', margin: '0 auto', padding: '80px 20px 0' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '16px' }}>
+              <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontStyle: 'italic', fontSize: '20px', color: ACCENT }}>
+                01
+              </span>
+              <span style={{ fontSize: '12px', letterSpacing: '.2em', textTransform: 'uppercase', fontWeight: 600 }}>
+                People
+              </span>
+              <span style={{ flex: 1, height: '1px', background: 'rgba(22,33,58,.2)' }} />
             </div>
-          </section>
 
-          {/* 03 / PEOPLE PREVIEW */}
-          <section id="people-preview" className="section-block">
-            <div className="kicker">03 / The Batch</div>
-            <h2 className="sec-title">People</h2>
-            <p className="sec-sub">The faces behind the batch. Powered live by our directory.</p>
+            <h2
+              className="sec-title"
+              style={{
+                margin: '0 0 12px',
+                fontFamily: "'Fraunces',Georgia,serif",
+                fontWeight: 400,
+                fontSize: '38px',
+                lineHeight: 1.1,
+                letterSpacing: '-.02em',
+              }}
+            >
+              The faces behind <em style={{ fontStyle: 'italic' }}>the memories</em>
+            </h2>
+            <p style={{ margin: '0 0 32px', color: '#4B5468', maxWidth: '32em' }}>
+              Classmates and teachers who made these years what they were.
+            </p>
 
             {loadingPeople ? (
-              <p className="sec-sub">Loading batch directory...</p>
+              <p style={{ color: '#4B5468' }}>Loading batch directory...</p>
             ) : (
-              <div className="people-grid">
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))',
+                  gap: '28px 14px',
+                }}
+              >
                 {sortedPeople.slice(0, 6).map((person, idx) => (
-                  <PortraitCard
+                  <ArchPersonCard
                     key={person.id || `${person.name}-${idx}`}
                     person={person}
                     index={idx}
-                    onSelect={setActiveModal}
+                    onSelect={setModalItem}
                   />
                 ))}
               </div>
             )}
 
-            <div style={{ marginTop: '36px' }}>
-              <a className="btn" href="#people" onClick={openPeoplePage}>
+            <div style={{ marginTop: '40px' }}>
+              <a
+                className="btn"
+                href="#people"
+                onClick={openPeoplePage}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  minHeight: '52px',
+                  padding: '0 28px',
+                  border: '1.5px solid #16213A',
+                  borderRadius: '999px',
+                  fontWeight: 600,
+                  fontSize: '15px',
+                  color: '#16213A',
+                }}
+              >
                 View all people ({sortedPeople.length})
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
               </a>
             </div>
           </section>
 
-          {/* 04 / CAMPUS STORIES */}
-          <section id="photos" className="section-block">
-            <div className="kicker">04 / Campus Chronicles</div>
-            <h2 className="sec-title">Stories &amp; moments</h2>
-            <p className="sec-sub">Campus corners and small moments we want to keep.</p>
+          {/* Photos */}
+          <section id="photos" style={{ maxWidth: '1120px', margin: '0 auto', padding: '88px 20px 0' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '16px' }}>
+              <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontStyle: 'italic', fontSize: '20px', color: ACCENT }}>
+                02
+              </span>
+              <span style={{ fontSize: '12px', letterSpacing: '.2em', textTransform: 'uppercase', fontWeight: 600 }}>
+                Photos
+              </span>
+              <span style={{ flex: 1, height: '1px', background: 'rgba(22,33,58,.2)' }} />
+            </div>
 
-            {/* Featured Story */}
-            <a
-              className="lead-story"
-              href="#photos"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveModal({
-                  kicker: `${leadStory.category} · ${leadStory.readTime}`,
-                  title: leadStory.title,
-                  author: `By ${leadStory.author}`,
-                  paragraphs: leadStory.fullText,
-                  image: leadStory.image,
-                });
+            <h2
+              className="sec-title"
+              style={{
+                margin: '0 0 12px',
+                fontFamily: "'Fraunces',Georgia,serif",
+                fontWeight: 400,
+                fontSize: '38px',
+                lineHeight: 1.1,
+                letterSpacing: '-.02em',
               }}
             >
-              <div className="lead-story-img">
-                <img src={leadStory.image} alt={leadStory.title} loading="lazy" />
-              </div>
-              <div className="lead-story-body">
-                <div className="kicker" style={{ marginBottom: '6px' }}>
-                  Featured · {leadStory.category}
-                </div>
-                <h3>{leadStory.title}</h3>
-                <p>{leadStory.excerpt}</p>
-                <span className="byline">By {leadStory.author} · {leadStory.readTime} →</span>
-              </div>
-            </a>
+              Moments we will <em style={{ fontStyle: 'italic' }}>never retake</em>
+            </h2>
+            <p style={{ margin: '0 0 32px', color: '#4B5468', maxWidth: '32em' }}>
+              The campus, the corridors and every ordinary day that turned out to matter.
+            </p>
 
-            {/* Secondary Stories */}
-            <div className="sub-stories-grid">
-              {secondaryStories.map((story) => (
-                <a
-                  key={story.id}
-                  className="story-card"
-                  href="#photos"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setActiveModal({
-                      kicker: `${story.category} · ${story.readTime}`,
-                      title: story.title,
-                      author: `By ${story.author}`,
-                      paragraphs: story.fullText,
-                      image: story.image,
-                    });
-                  }}
-                >
-                  <img src={story.image} alt={story.title} loading="lazy" />
-                  <div className="story-card-body">
-                    <div className="kicker" style={{ marginBottom: '4px' }}>{story.category}</div>
-                    <h3>{story.title}</h3>
-                    <p>{story.excerpt}</p>
-                    <span className="byline">By {story.author} →</span>
-                  </div>
-                </a>
+            <div className="masonry-grid">
+              {siteData.photos.map((ph) => (
+                <PhotoTile key={ph.id} item={ph} onSelect={setModalItem} />
               ))}
             </div>
           </section>
 
-          {/* 05 / CREATIVE ANTHOLOGY */}
-          <section id="creative" className="section-block">
-            <div className="kicker">05 / Margins</div>
-            <h2 className="sec-title">Creative work</h2>
-            <p className="sec-sub">Poems, stories and sketches from the margins of our notebooks.</p>
-
-            <div className="creative-grid">
-              {siteData.creativeWorks.map((work, idx) => (
-                <a
-                  key={idx}
-                  className="creative-card"
-                  href="#creative"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setActiveModal({
-                      kicker: work.category,
-                      title: work.title,
-                      author: `By ${work.author}`,
-                      paragraphs: [work.fullText],
-                    });
-                  }}
-                >
-                  <div>
-                    <div className="kicker" style={{ marginBottom: '4px' }}>{work.category}</div>
-                    <h3>{work.title}</h3>
-                    <p>{work.excerpt}</p>
-                  </div>
-                  <span className="byline">By {work.author} · Read piece →</span>
-                </a>
-              ))}
+          {/* Creative work */}
+          <section id="creative" style={{ maxWidth: '1120px', margin: '0 auto', padding: '88px 20px 88px' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '16px' }}>
+              <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontStyle: 'italic', fontSize: '20px', color: ACCENT }}>
+                03
+              </span>
+              <span style={{ fontSize: '12px', letterSpacing: '.2em', textTransform: 'uppercase', fontWeight: 600 }}>
+                Creative work
+              </span>
+              <span style={{ flex: 1, height: '1px', background: 'rgba(22,33,58,.2)' }} />
             </div>
-          </section>
 
-          {/* 06 / VOICES */}
-          <section className="section-block" style={{ borderBottom: 'none' }}>
-            <div className="kicker">06 / Overheard</div>
-            <h2 className="sec-title">Campus voices</h2>
-            <p className="sec-sub">Lines heard in corridors, classrooms, and hostel rooms.</p>
+            <h2
+              className="sec-title"
+              style={{
+                margin: '0 0 12px',
+                fontFamily: "'Fraunces',Georgia,serif",
+                fontWeight: 400,
+                fontSize: '38px',
+                lineHeight: 1.1,
+                letterSpacing: '-.02em',
+              }}
+            >
+              Made by us, <em style={{ fontStyle: 'italic' }}>for us</em>
+            </h2>
+            <p style={{ margin: '0 0 32px', color: '#4B5468', maxWidth: '32em' }}>
+              Poems, sketches, stories and everything our classmates dreamed up between classes.
+            </p>
 
-            <div className="voices-grid">
-              {siteData.voices.map((v, idx) => (
-                <div key={idx} className="voice-item">
-                  <blockquote>“{v.quote}”</blockquote>
-                  <cite>— {v.author}</cite>
-                </div>
-              ))}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))',
+                gap: '16px',
+              }}
+            >
+              {siteData.works.map((w, idx) => {
+                const bg = w.bg || CREATIVE_TINTS[idx % CREATIVE_TINTS.length];
+                return (
+                  <article
+                    key={idx}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() =>
+                      setModalItem({
+                        tag: w.tag,
+                        title: w.title,
+                        sub: `By ${w.author}`,
+                        body: w.fullText,
+                        bg,
+                      })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setModalItem({
+                          tag: w.tag,
+                          title: w.title,
+                          sub: `By ${w.author}`,
+                          body: w.fullText,
+                          bg,
+                        });
+                      }
+                    }}
+                    style={{
+                      borderRadius: '22px',
+                      padding: '26px 24px 24px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '18px',
+                      minHeight: '250px',
+                      background: bg,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <span
+                      style={{
+                        alignSelf: 'flex-start',
+                        border: '1px solid #16213A',
+                        borderRadius: '999px',
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        letterSpacing: '.14em',
+                        textTransform: 'uppercase',
+                        padding: '6px 12px',
+                      }}
+                    >
+                      {w.tag}
+                    </span>
+                    <h3
+                      style={{
+                        margin: 0,
+                        fontFamily: "'Fraunces',Georgia,serif",
+                        fontWeight: 400,
+                        fontSize: '28px',
+                        lineHeight: 1.15,
+                        letterSpacing: '-.01em',
+                      }}
+                    >
+                      {w.title}
+                    </h3>
+                    <p style={{ margin: 0, fontStyle: 'italic', color: '#2F3A52', flex: 1 }}>{w.excerpt}</p>
+                    <span style={{ fontSize: '14px', fontWeight: 600 }}>by {w.author}</span>
+                  </article>
+                );
+              })}
             </div>
           </section>
         </main>
       )}
 
-      {/* FOOTER */}
-      <footer className="ed-footer">
-        <div className="wrap">
-          <h2>{siteData.meta.footerBye}</h2>
-          <p className="ed-footer-sign">{siteData.meta.footerSign}</p>
-          <nav className="ed-footer-nav">
-            <a href="#people" onClick={openPeoplePage}>People</a>
-            <a href="#photos" onClick={(e) => goHomeSection(e, 'photos')}>Stories</a>
-            <a href="#creative" onClick={(e) => goHomeSection(e, 'creative')}>Creative</a>
-            <a href="../">Dark Edition</a>
-          </nav>
-          <p className="ed-footer-fine">{siteData.meta.finePrint}</p>
+      {/* Footer */}
+      <footer
+        style={{
+          background: '#16213A',
+          color: '#F5EFE3',
+          padding: '72px 20px 36px',
+          borderRadius: '32px 32px 0 0',
+        }}
+      >
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
+          <div
+            style={{
+              fontFamily: "'Fraunces',Georgia,serif",
+              fontStyle: 'italic',
+              fontSize: '48px',
+              lineHeight: 1.05,
+              letterSpacing: '-.02em',
+            }}
+          >
+            {siteData.meta.footerHeadline1}
+            <br />
+            {siteData.meta.footerHeadline2}
+          </div>
+          <p style={{ margin: '20px 0 36px', color: '#CFC8B8', maxWidth: '28em' }}>
+            {siteData.meta.footerBody}
+          </p>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '8px 28px',
+              padding: '20px 0',
+              borderTop: '1px solid rgba(245,239,227,.2)',
+              borderBottom: '1px solid rgba(245,239,227,.2)',
+            }}
+          >
+            <a href="#people" onClick={openPeoplePage} style={{ fontWeight: 600, padding: '10px 0', minHeight: '44px' }}>
+              People
+            </a>
+            <a href="#photos" onClick={(e) => goHomeSection(e, 'photos')} style={{ fontWeight: 600, padding: '10px 0', minHeight: '44px' }}>
+              Photos
+            </a>
+            <a href="#creative" onClick={(e) => goHomeSection(e, 'creative')} style={{ fontWeight: 600, padding: '10px 0', minHeight: '44px' }}>
+              Creative work
+            </a>
+            <a href="../" style={{ fontWeight: 600, padding: '10px 0', minHeight: '44px' }}>
+              Dark version
+            </a>
+            <a
+              href="#top"
+              onClick={(e) => goHomeSection(e, null)}
+              style={{ fontWeight: 600, padding: '10px 0', minHeight: '44px', color: '#F2A794' }}
+            >
+              Back to top ↑
+            </a>
+          </div>
+          <p style={{ margin: '24px 0 0', fontSize: '13px', color: '#B9B2A2' }}>{siteData.meta.copyright}</p>
         </div>
       </footer>
 
-      {/* EDITORIAL READING MODAL */}
-      {activeModal && (
+      {/* Reading / Detail Modal */}
+      {modalItem && (
         <div
-          className="modal-backdrop"
           role="dialog"
           aria-modal="true"
-          onClick={() => setActiveModal(null)}
+          onClick={() => setModalItem(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 50,
+            background: 'rgba(22,33,58,.65)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+          }}
         >
-          <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-top">
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: '560px',
+              maxHeight: '85vh',
+              overflowY: 'auto',
+              background: '#F5EFE3',
+              color: '#16213A',
+              borderRadius: '24px',
+              padding: '28px',
+              border: '1.5px solid #16213A',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', marginBottom: '16px' }}>
               <div>
-                <div className="kicker" style={{ marginBottom: '6px' }}>{activeModal.kicker}</div>
-                <h3>{activeModal.title}</h3>
-                <div className="byline">{activeModal.author}</div>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    border: '1px solid #16213A',
+                    borderRadius: '999px',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    letterSpacing: '.14em',
+                    textTransform: 'uppercase',
+                    padding: '4px 10px',
+                    marginBottom: '10px',
+                  }}
+                >
+                  {modalItem.tag}
+                </span>
+                <h3
+                  style={{
+                    margin: '0 0 4px',
+                    fontFamily: "'Fraunces',Georgia,serif",
+                    fontWeight: 400,
+                    fontSize: '30px',
+                    lineHeight: 1.15,
+                  }}
+                >
+                  {modalItem.title}
+                </h3>
+                <div style={{ fontSize: '13px', color: '#4B5468', fontWeight: 600 }}>{modalItem.sub}</div>
               </div>
+
               <button
                 type="button"
-                className="menu-circle"
                 aria-label="Close"
-                onClick={() => setActiveModal(null)}
-                style={{ width: '40px', height: '40px', flexShrink: 0 }}
+                onClick={() => setModalItem(null)}
+                className="btn"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '999px',
+                  border: '1.5px solid #16213A',
+                  background: 'transparent',
+                  color: '#16213A',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                }}
               >
                 ✕
               </button>
             </div>
-            {activeModal.image && <img src={activeModal.image} alt={activeModal.title} />}
-            {activeModal.paragraphs.map((line, i) => (
-              <p key={i} style={{ whiteSpace: 'pre-line' }}>{line}</p>
-            ))}
+
+            {modalItem.image && (
+              <img
+                src={modalItem.image}
+                alt={modalItem.title}
+                style={{
+                  width: '100%',
+                  maxHeight: '300px',
+                  objectFit: 'cover',
+                  borderRadius: '14px',
+                  marginBottom: '18px',
+                  display: 'block',
+                }}
+              />
+            )}
+
+            <p style={{ margin: 0, fontSize: '17px', lineHeight: 1.75, whiteSpace: 'pre-line' }}>
+              {modalItem.body}
+            </p>
           </div>
         </div>
       )}
